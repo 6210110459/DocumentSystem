@@ -1,53 +1,53 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom"
 import Card from 'react-bootstrap/Card';
-import axios from 'axios';
-import moment from "moment"
-import Alert from 'react-bootstrap/Alert';
+// import axios from 'axios';
+// import moment from "moment"
+// import Alert from 'react-bootstrap/Alert';
 
 const Home = () => {
 
-    const [data, setData] = useState([]);
+    // const [data, setData] = useState([]);
 
-    const [show, setShow] = useState(false);
+    // const [show, setShow] = useState(false);
 
-    const getUserData = async () => {
-        const res = await axios.get("/getdata", {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
+    // const getUserData = async () => {
+    //     const res = await axios.get("/getdata", {
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         }
+    //     });
 
-        if (res.data.status === 201) {
-            console.log("data get");
-            setData(res.data.data)
+    //     if (res.data.status === 201) {
+    //         console.log("data get");
+    //         setData(res.data.data)
 
-        } else {
-            console.log("error")
-        }
-    }
+    //     } else {
+    //         console.log("error")
+    //     }
+    // }
 
 
-    const dltUser = async (id) => {
-        console.log(id)
-        const res = await axios.delete(`/${id}`, {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
+    // const dltUser = async (id) => {
+    //     console.log(id)
+    //     const res = await axios.delete(`/${id}`, {
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         }
+    //     });
 
-        if (res.data.status === 201) {
-            getUserData()
-            setShow(true)
-        } else {
-            console.log("error")
-        }
-    }
+    //     if (res.data.status === 201) {
+    //         getUserData()
+    //         setShow(true)
+    //     } else {
+    //         console.log("error")
+    //     }
+    // }
 
-    useEffect(() => {
-        getUserData()
-    }, [])
+    // useEffect(() => {
+    //     getUserData()
+    // }, [])
 
     return (
         <>

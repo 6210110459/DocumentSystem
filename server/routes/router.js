@@ -33,17 +33,19 @@ var upload = multer({
 
 
 // register userdata
-router.post("/register", upload.single("photo"),(req,res) => {
+router.post("/register", upload.single("photo"), (req,res) => {
     const {fname} = req.body;
     const {filename} = req.file;
 
+    
     if(!fname || !filename){
-        res.status(422).json({status:422 ,message: "fill all the details"})
+        res.status(422).json({status:422, message: "fill all the details"})
     }
 
     try {
         let date = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
-        conn.query("INSERT INTO userdata SET ?", {username:fname, userfile:filename,  date:date}, (err,result) => {
+
+        conn.query("INSERT INTO usersdata SET ?", {username:fname, userfile:filename, date:date},(err,result) => {
             if (err) {
                 console.log("error")
             } else {

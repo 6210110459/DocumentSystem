@@ -4,7 +4,7 @@ const conn = mysql.createConnection({
     user: "root",
     host: "localhost",
     password: "@aom@9743",
-    database: "userfileupload"
+    database: "usersfileupload"
 });
 
 conn.connect((error)=>{
@@ -12,4 +12,4 @@ conn.connect((error)=>{
     console.log("connected !")
 });
 
-// module.exports = conn
+module.exports = conn
