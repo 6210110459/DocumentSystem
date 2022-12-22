@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from "axios"
-// import {useNavigate} from "react-router-dom"
+import {useNavigate} from "react-router-dom"
 
 const Register = () => {
     //assign variables to name files.
@@ -10,7 +10,7 @@ const Register = () => {
     //assign variables to upload files.
     const [file,setFile] = useState("");
 
-    // const history = useNavigate();
+    const history = useNavigate();
     
     const setdata = (e)=>{
         setFName(e.target.value) //give the file a new name.
@@ -37,12 +37,12 @@ const Register = () => {
         
         const res = await axios.post("/register",formData,config);
         console.log(res)
-       
-        // if(res.data.status === 201){
-        //     history("/")
-        // }else{
-        //     console.log("error")
-        // }
+       //return to home pageWeb
+        if(res.data.status === 201){
+            history("/")
+        }else{
+            console.log("error")
+        }
     }
 
     return (

@@ -1,61 +1,62 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom"
 import Card from 'react-bootstrap/Card';
-// import axios from 'axios';
-// import moment from "moment"
-// import Alert from 'react-bootstrap/Alert';
+import axios from 'axios';
+import moment from "moment"
+import Alert from 'react-bootstrap/Alert';
 
 const Home = () => {
 
-    // const [data, setData] = useState([]);
+    const [data, setData] = useState([]);
 
-    // const [show, setShow] = useState(false);
+    const [show, setShow] = useState(false);
 
-    // const getUserData = async () => {
-    //     const res = await axios.get("/getdata", {
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         }
-    //     });
+    const getUserData = async () => {
+        const res = await axios.get("/getdata", {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
 
-    //     if (res.data.status === 201) {
-    //         console.log("data get");
-    //         setData(res.data.data)
+        if (res.data.status === 201) {
+            console.log("data get");
+            setData(res.data.data)
 
-    //     } else {
-    //         console.log("error")
-    //     }
-    // }
+        } else {
+            console.log("error")
+        }
+    }
 
 
-    // const dltUser = async (id) => {
-    //     console.log(id)
-    //     const res = await axios.delete(`/${id}`, {
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         }
-    //     });
+    const dltUser = async (id) => {
+        //connect to backEnd
+        console.log(id)
+        const res = await axios.delete(`/${id}`, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
 
-    //     if (res.data.status === 201) {
-    //         getUserData()
-    //         setShow(true)
-    //     } else {
-    //         console.log("error")
-    //     }
-    // }
+        if (res.data.status === 201) {
+            getUserData()
+            setShow(true)
+        } else {
+            console.log("error")
+        }
+    }
 
-    // useEffect(() => {
-    //     getUserData()
-    // }, [])
+    useEffect(() => {
+        getUserData()
+    }, [])
 
     return (
         <>
-            {/* {
+            {
                 show ? <Alert variant="danger" onClose={() => setShow(false)} dismissible>
                     User Delete
                 </Alert> : ""
-            } */}
+            }
             <div className="container mt-2">
                 <h1 className='text-center mt-2'>Document Upload Projects With Mysql database</h1>
 
@@ -64,16 +65,26 @@ const Home = () => {
                 </div>
 
                 <div className='d-flex justify-content-between align-iteams-center mt-5'>
-                    <Card style={{ width: '22rem', height: '18rem' }} className='mb-3'>
-                        <Card.Img variant="top" src="/logo192.png" style={{ width: '100px', textAlign:'center', margin:'auto' }} className='mb-2' />
-                        <Card.Body className='text-center'>
-                            <Card.Title>UserName : Harsh</Card.Title>
-                                <Card.Text>
-                                    Date Added : 08-12-2022
-                                </Card.Text>
-                            <Button variant="danger" className='col-lg-6 text-center'>Delete</Button>
-                        </Card.Body>
-                    </Card>
+                    {
+                        //add card will upload
+                        data.length > 0 ? data.map((el,i)=>{
+                            return (
+                                <>
+                                    <Card style={{ width: '22rem', height: '18rem' }} className='mb-3'>
+                                        <Card.Img variant="top" src={`/uploads/${el.userfile}`} style={{ width: '100px', textAlign:'center', margin:'auto' }} className='mb-2' />
+                                        <Card.Body className='text-center'>
+                                            <Card.Title>UserName : {el.username}</Card.Title>
+                                            <Card.Text>
+                                                Date Added : {moment(el.date).format("DD-MM-YYYY")}
+                                            </Card.Text>
+                                            <Button variant="danger" onClick={() => dltUser(el.id)} className='col-lg-6 text-center'>Delete</Button>
+                                        </Card.Body>
+                                    </Card>
+                                </>
+                            )
+                        }) : ""
+                    }
+                    
                 </div>
 
                 {/* <div className='d-flex justify-content-between align-iteams-center mt-5'>

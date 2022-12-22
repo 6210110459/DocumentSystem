@@ -59,4 +59,39 @@ router.post("/register", upload.single("photo"), (req,res) => {
 })
 
 
+// get user data
+router.get("/getdata", (req,res) => {
+    try {
+        conn.query("SELECT * FROM usersdata", (err,result) => {
+            if (err) {
+                console.log("error")
+            } else {
+                console.log("data get")
+                res.status(201).json({status:201, data:result})
+            }
+        })
+    } catch (error) {
+        res.status(422).json({status:422, error})
+    }
+})
+
+
+// delete user
+router.delete("/:id", (req,res) => {
+    const {id} = req.params;
+    try {
+        conn.query(`DELETE FROM usersdata WHERE id = '${id}'`, (err,result) => {
+            if (err) {
+                console.log("error")
+            } else {
+                console.log("data delete")
+                res.status(201).json({status:201, data:result})
+            }
+        })
+    } catch (error) {
+        res.status(422).json({status:422, error})
+    }
+})
+
+
 module.exports = router;
