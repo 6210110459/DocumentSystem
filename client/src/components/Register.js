@@ -48,7 +48,7 @@ const Register = () => {
     return (
         <>
             <div className='container mt-3'>
-                <h1>Upload Your Img Here</h1>
+                <h1>Upload Your File Here</h1>
 
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -57,7 +57,7 @@ const Register = () => {
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
-                        <Form.Label>Select Your Image</Form.Label>
+                        <Form.Label>Select Your File</Form.Label>
                         <Form.Control type="file" name='photo' onChange={setimgfile} />
                     </Form.Group>
                     <Button variant="primary" type="submit" onClick={addUserData}>
