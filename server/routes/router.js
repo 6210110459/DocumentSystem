@@ -12,7 +12,7 @@ var fileconfig = multer.diskStorage({
         callback(null,"./uploads");
     },
     filename:(req,file,callback) => {
-        callback(null, `image-${Date.now()}.${file.originalname}`)
+        callback(null, `file-${Date.now()}.${file.originalname}`)
     }
 });
 

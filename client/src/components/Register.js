@@ -2,45 +2,45 @@ import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from "axios"
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const Register = () => {
     //assign variables to name files.
-    const [fname,setFName] = useState("");
+    const [fname, setFName] = useState("");
     //assign variables to upload files.
-    const [file,setFile] = useState("");
+    const [file, setFile] = useState("");
 
     const history = useNavigate();
-    
-    const setdata = (e)=>{
+
+    const setdata = (e) => {
         setFName(e.target.value) //give the file a new name.
         // console.log(e.target.value) //check if fname appears in the console.
     }
 
-    const setimgfile = (e)=>{
-        setFile(e.target.files[0]) 
+    const setimgfile = (e) => {
+        setFile(e.target.files[0])
         //console.log(e.target.files[0]) //check if file appear in the console.
     }
     //add photo to list
-    const addUserData = async(e)=>{
+    const addUserData = async (e) => {
         e.preventDefault();
 
         var formData = new FormData();
-        formData.append("photo",file)
-        formData.append("fname",fname);
+        formData.append("photo", file)
+        formData.append("fname", fname);
 
         const config = {
-            headers:{
-                "Content-Type":"multipart/form-data"
+            headers: {
+                "Content-Type": "multipart/form-data"
             }
         }
-        
-        const res = await axios.post("/register",formData,config);
+
+        const res = await axios.post("/register", formData, config);
         console.log(res)
-       //return to home pageWeb
-        if(res.data.status === 201){
+        //return to home pageWeb
+        if (res.data.status === 201) {
             history("/")
-        }else{
+        } else {
             console.log("error")
         }
     }
@@ -51,6 +51,13 @@ const Register = () => {
                 <h1>Upload Your File Here</h1>
 
                 <Form>
+                    <Form.Group className="mb-3">
+                        <Form.Label>Topic</Form.Label>
+                        <Form.Select disabled>
+                            <option>Topic</option>
+                        </Form.Select>
+                    </Form.Group>
+
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>UserName</Form.Label>
                         <Form.Control type="text" name='fname' onChange={setdata} />

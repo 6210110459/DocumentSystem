@@ -13,6 +13,8 @@ const Home = () => {
 
     const [show, setShow] = useState(false);
 
+    const [get, setGet] = useState(true);
+
     const getUserData = async () => {
         const res = await axios.get("/getdata", {
             headers: {
@@ -26,6 +28,7 @@ const Home = () => {
 
         } else {
             console.log("error")
+            setGet(false)
         }
     }
 
@@ -42,6 +45,7 @@ const Home = () => {
         if (res.data.status === 201) {
             getUserData()
             setShow(true)
+            setGet(false)
         } else {
             console.log("error")
         }
@@ -58,7 +62,8 @@ const Home = () => {
                     User Delete
                 </Alert> : ""
             }
-            <div className="container mt-2">
+
+            <div className="container mt-3">
                 <h1 className='text-center mt-2'>Document Upload Projects With Mysql database</h1>
 
                 {/* <div className='text-end'>
@@ -66,49 +71,35 @@ const Home = () => {
                 </div> */}
 
                 <div className='d-flex align-iteams-center mt-5'>
-                    <Table striped bordered hover>
+                    <Table bordered hover>
                         <thead>
-                            <tr>
-                                <th>Name</th>
+                            <tr className="table-dark">
+                                <th>Topic</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
-                                <th>Extended Date</th>
                                 <th>status</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Subject1</td>
+                                <td>การยื่นเรื่องคำร้อง 1</td>
                                 <td>12 December 2022, 00:00</td>
                                 <td>23 December 2022, 23:59</td>
-                                <td>25 December 2022, 23:59</td>
                                 <td>
-                                    <Alert variant="info">
-                                        Opened
-                                    </Alert>
+                                    {
+                                        get ?
+                                            <Alert variant="success" onClose={() => setGet(true)}>
+                                                Submitted
+                                            </Alert> : <Alert variant="info">
+                                                Opened
+                                            </Alert>
+                                    }
+
                                 </td>
                                 <td>
-                                    <Button variant="primary">
-                                        <NavLink to="/register" className="text-decoration-none text-light">
-                                            Add User
-                                        </NavLink>
-                                    </Button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Subject1</td>
-                                <td>12 December 2022, 00:00</td>
-                                <td>23 December 2022, 23:59</td>
-                                <td>25 December 2022, 23:59</td>
-                                <td>
-                                    <Alert variant="success">
-                                        Submitted
-                                    </Alert>
-                                </td>
-                                <td>
-                                    <div>
-                                        {
+                                    {get ?
+                                        (
                                             data.length > 0 ? data.map((el, i) => {
                                                 return (
                                                     <>
@@ -117,16 +108,21 @@ const Home = () => {
                                                     </>
                                                 )
                                             }) : ""
-                                        }
-                                    </div>
+                                        ) : (
+                                            <Button variant="primary">
+                                                <NavLink to="/register" className="text-decoration-none text-light">
+                                                    Add User
+                                                </NavLink>
+                                            </Button>
+                                        )
+                                    }
                                 </td>
-
                             </tr>
+                            
                             <tr>
-                                <td>Subject1</td>
+                                <td>การยื่นเรื่องคำร้อง 1</td>
                                 <td>12 December 2022, 00:00</td>
                                 <td>23 December 2022, 23:59</td>
-                                <td>25 December 2022, 23:59</td>
                                 <td>
                                     <Alert variant="warning">
                                         Lated
@@ -140,24 +136,7 @@ const Home = () => {
                                     </Button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>Subject1</td>
-                                <td>12 December 2022, 00:00</td>
-                                <td>23 December 2022, 23:59</td>
-                                <td>25 December 2022, 23:59</td>
-                                <td>
-                                    <Alert variant="info">
-                                        Opened
-                                    </Alert>
-                                </td>
-                                <td>
-                                    <Button variant="primary">
-                                        <NavLink to="/register" className="text-decoration-none text-light">
-                                            Add User
-                                        </NavLink>
-                                    </Button>
-                                </td>
-                            </tr>
+
                         </tbody>
                     </Table>
                 </div>

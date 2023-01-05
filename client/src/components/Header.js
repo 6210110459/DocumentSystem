@@ -11,6 +11,8 @@ const Header = () => {
                     <Navbar.Brand href="/">Document System</Navbar.Brand>
                     <Nav className="me-auto">
                         <Nav.Link href="/register">Register</Nav.Link>
+                        <Nav.Link href="/status">Status</Nav.Link>
+                        <Nav.Link href="/view">Detail</Nav.Link>
                     </Nav>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
