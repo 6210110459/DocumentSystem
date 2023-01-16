@@ -13,8 +13,6 @@ const Home = () => {
 
     const [show, setShow] = useState(false);
 
-    const [get, setGet] = useState(true);
-
     const getUserData = async () => {
         const res = await axios.get("/getdata", {
             headers: {
@@ -28,7 +26,7 @@ const Home = () => {
 
         } else {
             console.log("error")
-            setGet(false)
+
         }
     }
 
@@ -45,7 +43,7 @@ const Home = () => {
         if (res.data.status === 201) {
             getUserData()
             setShow(true)
-            setGet(false)
+            // setGet(true)
         } else {
             console.log("error")
         }
@@ -88,27 +86,24 @@ const Home = () => {
                                 <td>23 December 2022, 23:59</td>
                                 <td>
                                     {
-                                        get ?
-                                            <Alert variant="success" onClose={() => setGet(true)}>
+                                        data.length > 0 ?
+                                            <Alert variant="success" >
                                                 Submitted
                                             </Alert> : <Alert variant="info">
                                                 Opened
                                             </Alert>
                                     }
-
                                 </td>
                                 <td>
-                                    {get ?
-                                        (
-                                            data.length > 0 ? data.map((el, i) => {
-                                                return (
-                                                    <>
-                                                        <p className='text-center'>{el.username}, {moment(el.date).format("DD-MM-YYYY-hh:mm")}</p>
-                                                        <Button variant="danger" onClick={() => dltUser(el.id)} className='align-iteams-center text-center'>Delete</Button>
-                                                    </>
-                                                )
-                                            }) : ""
-                                        ) : (
+                                    {
+                                        data.length > 0 ? data.map((el) => {
+                                            return (
+                                                <>
+                                                    <p className='text-center'>{el.username}, {moment(el.date).format("DD-MM-YYYY-hh:mm")}</p>
+                                                    <Button variant="danger" onClick={() => dltUser(el.id)} className='align-iteams-center text-center'>Delete</Button>
+                                                </>
+                                            )
+                                        }) : (
                                             <Button variant="primary">
                                                 <NavLink to="/register" className="text-decoration-none text-light">
                                                     Add User
@@ -118,7 +113,7 @@ const Home = () => {
                                     }
                                 </td>
                             </tr>
-                            
+
                             <tr>
                                 <td>การยื่นเรื่องคำร้อง 1</td>
                                 <td>12 December 2022, 00:00</td>

@@ -1,9 +1,37 @@
+import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+// import moment from "moment";
 import Table from 'react-bootstrap/Table';
 import Alert from 'react-bootstrap/Alert';
 import Nav from 'react-bootstrap/Nav';
 
 
 const Status = () => {
+
+    const [data, setData] = useState([]);
+    console.log(data);
+
+    const getData = async () => {
+        const res = await axios.get("/getdata", {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        if (res.data.status === 201) {
+            console.log("data get");
+            setData(res.data.data)
+
+        } else {
+            console.log("error")
+
+        }
+    }
+
+    useEffect(() => {
+        getData()
+    }, [])
+
     return (
         <>
             <div className="container mt-3">
@@ -24,10 +52,21 @@ const Status = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            {/* <tr>
                                 <td>การยื่นเรื่องคำร้อง 1</td>
                                 <td>
-                                    <Nav.Link href="/view" className='text-primary'>621011XXX</Nav.Link>
+                                    {
+                                        data.map((el) => {
+                                            return (
+                                                <>
+                                                    <Nav.Link href="/view" className='text-primary'>
+                                                        {el.username}
+                                                    </Nav.Link>
+                                                </>
+                                            )
+                                        })
+
+                                    }
                                 </td>
                                 <td>
                                     <Alert variant="info">
@@ -38,6 +77,7 @@ const Status = () => {
                             <tr>
                                 <td>การยื่นเรื่องคำร้อง 1</td>
                                 <td>
+
                                     <Nav.Link href="/view" className='text-primary'>621011XXX</Nav.Link>
                                 </td>
                                 <td>
@@ -57,7 +97,27 @@ const Status = () => {
                                         เอกสารถูกยกเลิก
                                     </Alert>
                                 </td>
-                            </tr>
+                            </tr> */}
+                            {
+                                data.map((el, i) => {
+                                    return (
+                                        <>
+                                            <tr>
+                                                {/* <th scope="row">{i + 1}</th> */}
+                                                <td>Topic1</td>
+                                                <td>
+                                                    <Nav.Link href="/view" className='text-primary'>
+                                                        {el.username}
+                                                    </Nav.Link>
+                                                </td>
+                                                <td>
+                                                <Alert variant="info">รอดำเนินการอยู่</Alert>
+                                                </td>
+                                            </tr>
+                                        </>
+                                    )
+                                })
+                            }
                         </tbody>
                     </Table>
                 </div>

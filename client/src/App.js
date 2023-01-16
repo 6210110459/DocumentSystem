@@ -18,8 +18,8 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/status' element={<Status/>} />
         {/* admin page */}
-        <Route path='/home' element={<Homee/>} />
-        <Route path='/view' element={<View/>} />
+        <Route path='/admin/home' element={<Homee/>} />
+        <Route path='/admin/view' element={<View/>} />
         
       </Routes>
       

@@ -13,6 +13,7 @@ const Header = () => {
                         <Nav.Link href="/register">Register</Nav.Link>
                         <Nav.Link href="/status">Status</Nav.Link>
                         <Nav.Link href="/view">Detail</Nav.Link>
+                        <Nav.Link href="/admin/home">admin</Nav.Link>
                     </Nav>
                     <Navbar.Collapse className="justify-content-end">
                         <Navbar.Text>
