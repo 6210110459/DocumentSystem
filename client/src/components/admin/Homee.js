@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/esm/Table';
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import Chip from '@mui/material/Chip';
-import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
+import { NavLink } from "react-router-dom"
 
 
 const Homee = () => {
@@ -34,13 +36,19 @@ const Homee = () => {
     return (
         <>
             <div className='container mt-2'>
+                
                 <div>
                     <form className="d-flex mt-3">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div>
-                <div className='d-flex align-iteams-center mt-5'>
+
+                <div className='text-end mt-2 mb-2'>
+                    <Button variant="primary"><NavLink to="/admin/topic" className="text-decoration-none text-light"> Add Topic</NavLink></Button>
+                </div>
+
+                <div className='d-flex align-iteams-center mt-2'>
                     <Table hover>
                         <thead>
                             <tr className="table-dark">
@@ -52,31 +60,33 @@ const Homee = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* <tr>
+                            <tr>
                                 <td>1</td>
                                 <td>การยื่นเรื่องคำร้อง 1</td>
                                 <td>
-                                    <Nav.Link href="/view" className='text-primary'>621011XXX</Nav.Link>
+                                    621011XXX
                                 </td>
                                 <td>
                                     <Chip label="เอกสารได้มีการแก้ไข" color="primary" />
                                 </td>
                                 <td className="d-flex justify-content-evenly">
+                                    <button className="btn btn-success"><RemoveRedEyeIcon /></button>
                                     <button className="btn btn-primary"><EditIcon /></button>
                                 </td>
                             </tr>
                             <tr>
-                                <td>1</td>
+                                <td>2</td>
                                 <td>การยื่นเรื่องคำร้อง 1</td>
-                                <td><Nav.Link href="/view" className='text-primary'>621011XXX</Nav.Link></td>
+                                <td>621011XXX</td>
                                 <td>
                                     <Chip label="เอกสารได้มีการแก้ไข" color="primary" />
                                 </td>
                                 <td className="d-flex justify-content-evenly">
+                                    <button className="btn btn-success"><RemoveRedEyeIcon /></button>
                                     <button className="btn btn-primary"><EditIcon /></button>
                                 </td>
-                            </tr> */}
-                            {
+                            </tr>
+                            {/* {
                                 data.map((el, i) => {
                                     return (
                                         <>
@@ -84,9 +94,7 @@ const Homee = () => {
                                                 <th scope="row">{i + 1}</th>
                                                 <td>Topic1</td>
                                                 <td>
-                                                    <Nav.Link href="/view" className='text-primary'>
-                                                        {el.username}
-                                                    </Nav.Link>
+                                                    {el.username}
                                                 </td>
                                                 <td>
                                                     <Chip label="เอกสารได้มีการแก้ไข" color="primary" />
@@ -98,7 +106,7 @@ const Homee = () => {
                                         </>
                                     )
                                 })
-                            }
+                            } */}
                         </tbody>
                     </Table>
                 </div>

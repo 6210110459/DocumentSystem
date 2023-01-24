@@ -51,23 +51,27 @@ const Register = () => {
                 <h1>Upload Your File Here</h1>
 
                 <Form>
-                    <Form.Group className="mb-3">
+                    <Form.Group className="mb-3" controlId="formControlInput1">
                         <Form.Label>Topic</Form.Label>
-                        <Form.Select disabled>
-                            <option>Topic</option>
-                        </Form.Select>
+                        <Form.Control type="text" name='Tname' placeholder='topic' onChange={setdata} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>UserName</Form.Label>
-                        <Form.Control type="text" name='fname' onChange={setdata} />
+                        <Form.Label>FileName</Form.Label>
+                        <Form.Control type="text" name='fname' placeholder='filename' onChange={setdata} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Select Your File</Form.Label>
                         <Form.Control type="file" name='photo' onChange={setimgfile} />
                     </Form.Group>
-                    <Button variant="primary" type="submit" onClick={addUserData}>
+
+                    <Form.Group className="mb-3" controlId="formControlTextarea1">
+                        <Form.Label>Detail</Form.Label>
+                        <Form.Control as={'textarea'} name='Dname' row={3} onChange={setdata} />
+                    </Form.Group>
+
+                    <Button className="mb-2" variant="primary" type="submit" onClick={addUserData} >
                         Submit
                     </Button>
                 </Form>

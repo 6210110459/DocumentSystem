@@ -3,7 +3,7 @@ import axios from 'axios';
 // import moment from "moment";
 import Table from 'react-bootstrap/Table';
 import Alert from 'react-bootstrap/Alert';
-import Nav from 'react-bootstrap/Nav';
+import Button from 'react-bootstrap/Button';
 
 
 const Status = () => {
@@ -52,52 +52,6 @@ const Status = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* <tr>
-                                <td>การยื่นเรื่องคำร้อง 1</td>
-                                <td>
-                                    {
-                                        data.map((el) => {
-                                            return (
-                                                <>
-                                                    <Nav.Link href="/view" className='text-primary'>
-                                                        {el.username}
-                                                    </Nav.Link>
-                                                </>
-                                            )
-                                        })
-
-                                    }
-                                </td>
-                                <td>
-                                    <Alert variant="info">
-                                        รอดำเนินการอยู่
-                                    </Alert>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>การยื่นเรื่องคำร้อง 1</td>
-                                <td>
-
-                                    <Nav.Link href="/view" className='text-primary'>621011XXX</Nav.Link>
-                                </td>
-                                <td>
-                                    <Alert variant="success">
-                                        เอกสารเรียบร้อย
-                                    </Alert>
-                                </td>
-
-                            </tr>
-                            <tr>
-                                <td>การยื่นเรื่องคำร้อง 1</td>
-                                <td>
-                                    <Nav.Link href="/view" className='text-primary'>621011XXX</Nav.Link>
-                                </td>
-                                <td>
-                                    <Alert variant="warning">
-                                        เอกสารถูกยกเลิก
-                                    </Alert>
-                                </td>
-                            </tr> */}
                             {
                                 data.map((el, i) => {
                                     return (
@@ -106,12 +60,10 @@ const Status = () => {
                                                 {/* <th scope="row">{i + 1}</th> */}
                                                 <td>Topic1</td>
                                                 <td>
-                                                    <Nav.Link href="/view" className='text-primary'>
-                                                        {el.username}
-                                                    </Nav.Link>
+                                                    <Button variant="link">{el.username}</Button>
                                                 </td>
                                                 <td>
-                                                <Alert variant="info">รอดำเนินการอยู่</Alert>
+                                                    <Alert variant="info">รอดำเนินการอยู่</Alert>
                                                 </td>
                                             </tr>
                                         </>
@@ -122,10 +74,8 @@ const Status = () => {
                     </Table>
                 </div>
             </div>
-
         </>
     )
-
 }
 
 export default Status

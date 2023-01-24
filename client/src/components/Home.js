@@ -6,6 +6,9 @@ import axios from 'axios';
 import moment from "moment"
 import Alert from 'react-bootstrap/Alert';
 import Table from 'react-bootstrap/Table'
+import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const Home = () => {
 
@@ -64,26 +67,37 @@ const Home = () => {
             <div className="container mt-3">
                 <h1 className='text-center mt-2'>Document Upload Projects With Mysql database</h1>
 
-                {/* <div className='text-end'>
+                <div className='text-end'>
                     <Button variant="primary"><NavLink to="/register" className="text-decoration-none text-light"> Add User</NavLink></Button>
-                </div> */}
+                </div>
 
                 <div className='d-flex align-iteams-center mt-5'>
                     <Table bordered hover>
                         <thead>
                             <tr className="table-dark">
+                                <th>#</th>
                                 <th>Topic</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
-                                <th>status</th>
                                 <th>Action</th>
+                                <th>Status</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
+                                <td>1</td>
                                 <td>การยื่นเรื่องคำร้อง 1</td>
-                                <td>12 December 2022, 00:00</td>
-                                <td>23 December 2022, 23:59</td>
+                                <td>
+                                    {
+                                        data.length > 0 ? data.map((el) => {
+                                            return (
+                                                <>
+                                                    <p className='text-center'>{el.username}, {moment(el.date).format("DD-MM-YYYY-hh:mm")}</p>
+                                                    <Button variant="danger" onClick={() => dltUser(el.id)} className='align-iteams-center text-center'>Delete</Button>
+                                                </>
+                                            )
+                                        }) : ""
+                                    }
+                                </td>
                                 <td>
                                     {
                                         data.length > 0 ?
@@ -94,44 +108,22 @@ const Home = () => {
                                             </Alert>
                                     }
                                 </td>
-                                <td>
-                                    {
-                                        data.length > 0 ? data.map((el) => {
-                                            return (
-                                                <>
-                                                    <p className='text-center'>{el.username}, {moment(el.date).format("DD-MM-YYYY-hh:mm")}</p>
-                                                    <Button variant="danger" onClick={() => dltUser(el.id)} className='align-iteams-center text-center'>Delete</Button>
-                                                </>
-                                            )
-                                        }) : (
-                                            <Button variant="primary">
-                                                <NavLink to="/register" className="text-decoration-none text-light">
-                                                    Add User
-                                                </NavLink>
-                                            </Button>
-                                        )
-                                    }
-                                </td>
                             </tr>
-
                             <tr>
+                                <td>2</td>
                                 <td>การยื่นเรื่องคำร้อง 1</td>
-                                <td>12 December 2022, 00:00</td>
-                                <td>23 December 2022, 23:59</td>
+                                <td>621011XXX</td>
                                 <td>
-                                    <Alert variant="warning">
-                                        Lated
+                                    <Alert variant="success">
+                                        Submitted
                                     </Alert>
                                 </td>
-                                <td>
-                                    <Button variant="warning">
-                                        <NavLink to="/register" className="text-decoration-none text-light">
-                                            Late Add User
-                                        </NavLink>
-                                    </Button>
+                                <td className="d-flex justify-content-evenly">
+                                    <button className="btn btn-success"><RemoveRedEyeIcon /></button>
+                                    <button className="btn btn-primary"><EditIcon /></button>
+                                    <button className="btn btn-danger"><DeleteIcon /></button>
                                 </td>
                             </tr>
-
                         </tbody>
                     </Table>
                 </div>
