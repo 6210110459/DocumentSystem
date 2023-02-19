@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom"
 // import Card from 'react-bootstrap/Card';
 import axios from 'axios';
-import moment from "moment"
+// import moment from "moment"
 import Alert from 'react-bootstrap/Alert';
 import Table from 'react-bootstrap/Table'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
@@ -33,11 +33,10 @@ const Home = () => {
         }
     }
 
-
     const dltUser = async (id) => {
         //connect to backEnd
         console.log(id)
-        const res = await axios.delete(`/${id}`, {
+        const res = await axios.delete(`/delete/${id}`, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -83,7 +82,35 @@ const Home = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            {
+                                data.map((el, id) => {
+                                    return (
+                                        <>
+                                            <tr>
+                                                <th>{id + 1}</th>
+                                                <td>{el.topic}</td>
+                                                <td>{el.username}</td>
+                                                <td>
+                                                    {
+                                                        data.length > 0 ?
+                                                            <Alert variant="success" >
+                                                                Submitted
+                                                            </Alert> : <Alert variant="info">
+                                                                Opened
+                                                            </Alert>
+                                                    }
+                                                </td>
+                                                <td className="d-flex justify-content-evenly">
+                                                    <NavLink to={`detail/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
+                                                    <NavLink to={`edit/${el.id}`}><button className="btn btn-primary"><EditIcon /></button></NavLink>
+                                                    <button className="btn btn-danger" onClick={() => dltUser(el.id)}><DeleteIcon /></button>
+                                                </td>
+                                            </tr>
+                                        </>
+                                    )
+                                })
+                            }
+                            {/* <tr>
                                 <td>1</td>
                                 <td>การยื่นเรื่องคำร้อง 1</td>
                                 <td>
@@ -108,8 +135,8 @@ const Home = () => {
                                             </Alert>
                                     }
                                 </td>
-                            </tr>
-                            <tr>
+                            </tr> */}
+                            {/* <tr>
                                 <td>2</td>
                                 <td>การยื่นเรื่องคำร้อง 1</td>
                                 <td>621011XXX</td>
@@ -123,7 +150,7 @@ const Home = () => {
                                     <button className="btn btn-primary"><EditIcon /></button>
                                     <button className="btn btn-danger"><DeleteIcon /></button>
                                 </td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </Table>
                 </div>
