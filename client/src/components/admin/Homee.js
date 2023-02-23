@@ -4,8 +4,9 @@ import Table from 'react-bootstrap/esm/Table';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import Chip from '@mui/material/Chip';
-import Button from 'react-bootstrap/Button';
-import { NavLink } from "react-router-dom"
+// import Button from 'react-bootstrap/Button';
+import { NavLink } from "react-router-dom";
+// import Form from 'react-bootstrap/Form';
 
 
 const Homee = () => {
@@ -36,17 +37,16 @@ const Homee = () => {
     return (
         <>
             <div className='container mt-2'>
-                
-                <div>
+                {/* <div>
                     <form className="d-flex mt-3">
                         <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
-                </div>
+                </div> */}
 
-                <div className='text-end mt-2 mb-2'>
+                {/* <div className='text-end mt-2 mb-2'>
                     <Button variant="primary"><NavLink to="/admin/topic" className="text-decoration-none text-light"> Add Topic</NavLink></Button>
-                </div>
+                </div> */}
 
                 <div className='d-flex align-iteams-center mt-2'>
                     <Table hover>
@@ -60,7 +60,28 @@ const Homee = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            {
+                                data.map((el, id) => {
+                                    return (
+                                        <>
+                                            <tr>
+                                                <th>{id + 1}</th>
+                                                <td>{el.topic}</td>
+                                                <td>{el.username}</td>
+                                                <td>
+                                                    <Chip label={el.status_file}></Chip>
+                                                </td>
+                                                <td className="d-flex justify-content-evenly">
+                                                    <NavLink to={`/detaill/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
+                                                    <NavLink to={`/update/${el.id}`}><button className="btn btn-primary"><EditIcon /></button></NavLink>
+                                                </td>
+    
+                                            </tr>
+                                        </>
+                                    )
+                                })
+                            }
+                            {/* <tr>
                                 <td>1</td>
                                 <td>การยื่นเรื่องคำร้อง 1</td>
                                 <td>
@@ -85,7 +106,7 @@ const Homee = () => {
                                     <button className="btn btn-success"><RemoveRedEyeIcon /></button>
                                     <button className="btn btn-primary"><EditIcon /></button>
                                 </td>
-                            </tr>
+                            </tr> */}
                             {/* {
                                 data.map((el, i) => {
                                     return (

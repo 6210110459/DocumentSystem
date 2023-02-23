@@ -123,13 +123,14 @@ router.get("/induser/:id", (req, res) => {
 router.put("/update/:id", upload.single("photo"), (req, res) => {
     const { id } = req.params;
     const { filename } = req.file;
+    const {status} = req.body;
 
     try {
-        conn.query("UPDATE usersdata SET userfile = ? WHERE id = ?", [filename, id], (err, result) => {
+        conn.query("UPDATE usersdata SET userfile = ?, status_id = ? WHERE id = ?", [filename, status, id], (err, result) => {
             if (err) {
                 console.log("error")
             } else {
-                console.log("data get")
+                console.log("update data")
                 res.status(201).json({ status: 201, data: result })
             }
         })
@@ -140,13 +141,22 @@ router.put("/update/:id", upload.single("photo"), (req, res) => {
 })
 
 //status
-// router.pu("/status/:id", (req,res) => {
-//     const {id} = req.params;
-//     const {editdata} = req.body;
-//     try{
-//         conn.query("INSERT INTO statusfile ")
-//     }
-// })
+router.put("/status/:id", (req,res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+    try {
+        conn.query("UPDATE usersdata SET status_id = ? WHERE id = ?", [status, id], (err, result) => {
+            if (err) {
+                console.log("error")
+            } else {
+                console.log("changed status")
+                res.status(201).json({ status: 201, data: result })
+            }
+        })
+    } catch (error) {
+        res.status(422).json({ status: 422, error })
+    }
+})
 
 //sign in
 router.post("/login", (req, res) => {
