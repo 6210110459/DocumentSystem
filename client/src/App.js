@@ -1,14 +1,18 @@
 import './App.css';
-import Header from './components/Header';
-import Home from './components/Home';
-import Register from './components/Register';
-import Homee from './components/admin/Homee';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Routes,Route} from "react-router-dom"
-import Status from './components/Status';
-import Detail from './components/Detail';
-import Edit from './components/admin/Edit';
+import {Routes,Route} from "react-router-dom";
+
+import Status from './components/student/Status';
+import Detail from './components/student/Detail';
+import Header from './components/student/Header';
+import Home from './components/student/Home';
+import Register from './components/student/Register';
+
 import Login from './components/Login';
+
+import Edit from './components/admin/Edit';
+import Homee from './components/admin/Homee';
+import Detaill from './components/admin/Detaill';
 
 function App() {
   return (
@@ -21,10 +25,12 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/status' element={<Status/>} />
         <Route path='/detail/:id' element={<Detail/>}/>
-        <Route path='/edit/:id' element={<Edit/>} />
+        
         {/* admin page */}
         <Route path='/admin/home' element={<Homee/>} />
-        
+        <Route path='/detaill/:id' element={<Detaill/>} />
+        <Route path='/update/:id' element={<Edit/>} />
+
       </Routes>
       
     </>
