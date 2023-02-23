@@ -38,10 +38,11 @@ var upload = multer({
 router.post("/register", upload.single("photo"), (req, res) => {
 
     // console.log(req.body);
-    const { tname, fname, dname} = req.body;
+    const { tname, fname, dname } = req.body;
     const { filename } = req.file;
+    const { status } = req.body;
 
-    if (!fname || !filename || !tname || !dname) {
+    if (!fname || !filename || !tname || !dname || !status) {
         res.status(422).json({ status: 422, message: "fill all the details" })
     }
 
@@ -49,7 +50,7 @@ router.post("/register", upload.single("photo"), (req, res) => {
 
         let date = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
 
-        conn.query("INSERT INTO usersdata SET ?", { topic: tname, username: fname, userfile: filename, decs: dname, date: date }, (err, result) => {
+        conn.query("INSERT INTO usersdata SET ?", { topic: tname, username: fname, userfile: filename, decs: dname, status_id: status, date: date }, (err, result) => {
             if (err) {
                 console.log("error")
             } else {
@@ -69,14 +70,15 @@ router.post("/register", upload.single("photo"), (req, res) => {
 // get user data
 router.get("/getdata", (req, res) => {
     try {
-        conn.query("SELECT * FROM usersdata", (err, result) => {
-            if (err) {
-                console.log("error")
-            } else {
-                console.log("data get")
-                res.status(201).json({ status: 201, data: result })
-            }
-        })
+        conn.query("SELECT usersdata.id, usersdata.topic, usersdata.username, usersdata.date, usersdata.decs,statusfile.status_file FROM usersdata INNER JOIN statusfile on statusfile.id = usersdata.status_id",
+            (err, result) => {
+                if (err) {
+                    console.log("error")
+                } else {
+                    console.log("data get")
+                    res.status(201).json({ status: 201, data: result })
+                }
+            })
     } catch (error) {
         res.status(422).json({ status: 422, error })
     }
@@ -104,7 +106,7 @@ router.delete("/delete/:id", (req, res) => {
 router.get("/induser/:id", (req, res) => {
     const { id } = req.params;
     try {
-        conn.query(`SELECT * FROM usersdata WHERE id=?`, [id],(err, result) => {
+        conn.query(`SELECT * FROM usersdata WHERE id=?`, [id], (err, result) => {
             if (err) {
                 console.log("error")
             } else {
@@ -118,12 +120,12 @@ router.get("/induser/:id", (req, res) => {
 })
 
 //update userdata
-router.post("/update/:id", (req, res) => {
+router.put("/update/:id", upload.single("photo"), (req, res) => {
     const { id } = req.params;
-    const data = req.body;
+    const { filename } = req.file;
 
     try {
-        conn.query("UPDATE usersdata SET ? WHERE id = ?", [data, id], (err, result) => {
+        conn.query("UPDATE usersdata SET userfile = ? WHERE id = ?", [filename, id], (err, result) => {
             if (err) {
                 console.log("error")
             } else {
@@ -137,15 +139,16 @@ router.post("/update/:id", (req, res) => {
 
 })
 
-//sign in
-// router.get("/signin", (req,res) => {
-//     if (req.session.user) {
-//         res.send({ loggedIn: true, user: req.session.user });
-//       } else {
-//         res.send({ loggedIn: false });
-//       }
+//status
+// router.pu("/status/:id", (req,res) => {
+//     const {id} = req.params;
+//     const {editdata} = req.body;
+//     try{
+//         conn.query("INSERT INTO statusfile ")
+//     }
 // })
 
+//sign in
 router.post("/login", (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -156,17 +159,17 @@ router.post("/login", (req, res) => {
 
         if (result.length > 0) {
             bcrypt.compare(password, result[0].password, (error, response) => {
-              if (response) {
-                // req.session.user = result;
-                // console.log(req.session.user);
-                res.send(result);
-              } else {
-                res.send({ message: "Wrong username/password combination!" });
-              }
+                if (response) {
+                    // req.session.user = result;
+                    // console.log(req.session.user);
+                    res.send(result);
+                } else {
+                    res.send({ message: "Wrong username/password combination!" });
+                }
             });
-          } else {
+        } else {
             res.send({ message: "User doesn't exist" });
-          }
+        }
     })
 
 })
