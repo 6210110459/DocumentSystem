@@ -6,11 +6,6 @@ import { useNavigate } from "react-router-dom"
 
 const Register = () => {
 
-    // const [input, setInput] = useState({
-    //     tname: "",
-    //     fname: ""
-    // });
-
     //assign variables to name files.
     const [fname, setFName] = useState("");
     const [tname, setTName] = useState("");
@@ -22,13 +17,6 @@ const Register = () => {
     const [statusf] = useState(1);
 
     const history = useNavigate();
-
-    // const setdata = (e) => {
-    //     setFName(e.target.value) //give the file a new name.
-    //     setTName(e.target.value)
-    //     // setDName(e.target.value)
-    //     // setInput(e.target.value)
-    // }
 
     const setimgfile = (e) => {
         setFile(e.target.files[0])
@@ -45,8 +33,6 @@ const Register = () => {
         formData.append("tname", tname)
         formData.append("dname", dname)
         formData.append("status", statusf)
-        // formData.append("input[]",input)
-
 
         const config = {
             headers: {

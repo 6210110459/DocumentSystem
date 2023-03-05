@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom"
-// import Card from 'react-bootstrap/Card';
 import axios from 'axios';
-// import moment from "moment"
 import Alert from 'react-bootstrap/Alert';
 import Table from 'react-bootstrap/Table'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-// import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+// import Header from '../Header';
 
 const Home = () => {
 
@@ -51,12 +49,62 @@ const Home = () => {
         }
     }
 
+    
+    // const getLoginUser = async () => {
+    //     const token = localStorage.getItem('token')
+
+    //     axios("http://localhost:8004/authuser", {
+    //         method: "POST",
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             'Authorization': 'Bearer'+token
+    //         }
+    //     })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.status === 'ok') {
+    //                 // alert('authen success')
+    //             } else {
+    //                 alert('authen failed')
+    //                 localStorage.removeItem('token')
+    //                 window.location = "/login"
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error:", error)
+    //         });
+    // }
+
     useEffect(() => {
-        getUserData()
+        const token = localStorage.getItem('token')
+
+        fetch("http://localhost:8004/authuser", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer '+token
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    // alert('authen success')
+                    getUserData()
+                } else {
+                    alert('authen failed')
+                    localStorage.removeItem('token')
+                    window.location = "/login"
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error)
+            });
+
     }, [])
 
     return (
         <>
+            {/* <Header /> */}
             {
                 show ? <Alert variant="danger" onClose={() => setShow(false)} dismissible>
                     User Delete
@@ -67,11 +115,11 @@ const Home = () => {
                 <h1 className='text-center mt-2'>Document Upload Projects With Mysql database</h1>
 
                 <div className='text-end'>
-                    <Button variant="primary"><NavLink to="/register" className="text-decoration-none text-light"> Add User</NavLink></Button>
+                    <Button variant="primary"><NavLink to="/upload" className="text-decoration-none text-light"> Add User</NavLink></Button>
                 </div>
 
-                <div className='d-flex align-iteams-center mt-5'>
-                    <Table bordered hover>
+                <div className='align-iteams-center mt-3'>
+                    <Table bordered hover responsive="sm">
                         <thead>
                             <tr className="table-dark">
                                 <th>#</th>

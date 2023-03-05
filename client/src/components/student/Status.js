@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios';
 // import moment from "moment";
 import Table from 'react-bootstrap/Table';
-import Alert from 'react-bootstrap/Alert';
+import Chip from '@mui/material/Chip';
 import { NavLink } from "react-router-dom"
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const Status = () => {
 
@@ -32,6 +34,8 @@ const Status = () => {
         getData()
     }, [])
 
+//    const [search, setSearch] = useState("");
+
     return (
         <>
             <div className="container mt-3">
@@ -42,6 +46,30 @@ const Status = () => {
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div> */}
+                <div className="mt-4 d-flex justify-content-between">
+                    <div className="filter_status">
+                        <Dropdown className='text-center'>
+                            <Dropdown.Toggle id="dropdown-basic" variant="warning">สถานะเอกสาร</Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item>รอการดำเนินการ</Dropdown.Item>
+                                <Dropdown.Item>เอกสารสำเร็จ</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    </div>
+
+                    <div className="search col-lg-4">
+                        <Form className="d-flex">
+                            <Form.Control
+                                type="search"
+                                placeholder="Search"
+                                className="me-2"
+                                aria-label="Search"
+                            />
+                            <Button variant="primary" className='search_btn'>Search</Button>
+                        </Form>
+                    </div>
+                </div>
+
                 <div className='d-flex align-iteams-center mt-3'>
                     <Table bordered hover>
                         <thead>
@@ -65,7 +93,7 @@ const Status = () => {
                                                     {el.username}
                                                 </td>
                                                 <td>
-                                                    <Alert variant="dark">{el.status_file}</Alert>
+                                                    <Chip label={el.status_file} color={el.status_file === 'รอการดำเนิน' ? 'warning' : 'success'}></Chip>
                                                 </td>
                                                 <td className="d-flex justify-content-evenly">
                                                     <NavLink to={`/detail/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>

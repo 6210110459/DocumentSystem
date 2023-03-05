@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/esm/Table';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import EditIcon from '@mui/icons-material/Edit';
 import Chip from '@mui/material/Chip';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
+// import Form from 'react-bootstrap/Form';
 
 
-const Homee = () => {
+const HomeT = () => {
     const [data, setData] = useState([]);
     console.log(data);
 
@@ -37,19 +36,7 @@ const Homee = () => {
     return (
         <>
             <div className='container mt-2'>
-                <h1 className='text-center mt-5'>Document Upload Projects With Mysql database</h1>
-
-                <div className="search col-lg-4">
-                    <Form className="d-flex">
-                        <Form.Control
-                            type="search"
-                            placeholder="Search"
-                            className="me-2"
-                            aria-label="Search"
-                        />
-                        <Button variant="primary" className='search_btn'>Search</Button>
-                    </Form>
-                </div>
+            <h1 className='text-center mt-5'>Document Upload Projects With Mysql database</h1>
 
                 <div className='d-flex align-iteams-center mt-5'>
                     <Table hover>
@@ -75,10 +62,9 @@ const Homee = () => {
                                                     <Chip label={el.status_file} color={el.status_file === 'รอการดำเนิน' ? 'warning' : 'success'}></Chip>
                                                 </td>
                                                 <td className="d-flex justify-content-evenly">
-                                                    <NavLink to={`/detaill/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
-                                                    <NavLink to={`/update/${el.id}`}><button className="btn btn-primary"><EditIcon /></button></NavLink>
+                                                    <NavLink to={`/detail/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
                                                 </td>
-
+    
                                             </tr>
                                         </>
                                     )
@@ -93,4 +79,4 @@ const Homee = () => {
     )
 }
 
-export default Homee
+export default HomeT

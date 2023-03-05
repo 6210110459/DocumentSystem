@@ -3,7 +3,13 @@ const router = new express.Router();
 const conn = require("../db/conn");
 const multer = require("multer");
 const moment = require("moment");
+
+const bodyParser = require('body-parser');
+var jsonParser = bodyParser.json();
 const bcrypt = require("bcrypt");
+const saltRounds = 10;
+var jwt = require('jsonwebtoken');
+const secret = 'DocumentSystem'
 // const session = require("express-session");
 
 
@@ -66,7 +72,6 @@ router.post("/register", upload.single("photo"), (req, res) => {
     }
 })
 
-
 // get user data
 router.get("/getdata", (req, res) => {
     try {
@@ -83,7 +88,6 @@ router.get("/getdata", (req, res) => {
         res.status(422).json({ status: 422, error })
     }
 })
-
 
 // delete user
 router.delete("/delete/:id", (req, res) => {
@@ -123,7 +127,7 @@ router.get("/induser/:id", (req, res) => {
 router.put("/update/:id", upload.single("photo"), (req, res) => {
     const { id } = req.params;
     const { filename } = req.file;
-    const {status} = req.body;
+    const { status } = req.body;
 
     try {
         conn.query("UPDATE usersdata SET userfile = ?, status_id = ? WHERE id = ?", [filename, status, id], (err, result) => {
@@ -141,46 +145,74 @@ router.put("/update/:id", upload.single("photo"), (req, res) => {
 })
 
 //status
-router.put("/status/:id", (req,res) => {
-    const { id } = req.params;
-    const { status } = req.body;
-    try {
-        conn.query("UPDATE usersdata SET status_id = ? WHERE id = ?", [status, id], (err, result) => {
-            if (err) {
-                console.log("error")
-            } else {
-                console.log("changed status")
-                res.status(201).json({ status: 201, data: result })
-            }
-        })
-    } catch (error) {
-        res.status(422).json({ status: 422, error })
-    }
-})
+// router.put("/status/:id", (req, res) => {
+//     const { id } = req.params;
+//     const { status } = req.body;
+//     try {
+//         conn.query("UPDATE usersdata SET status_id = ? WHERE id = ?", [status, id], (err, result) => {
+//             if (err) {
+//                 console.log("error")
+//             } else {
+//                 console.log("changed status")
+//                 res.status(201).json({ status: 201, data: result })
+//             }
+//         })
+//     } catch (error) {
+//         res.status(422).json({ status: 422, error })
+//     }
+// })
 
 //sign in
-router.post("/login", (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
-    conn.query("SELECT * FROM login WHERE username = ?", username, (err, result) => {
-        if (err) {
-            res.send({ err: err });
-        }
+router.post('/registeruser', jsonParser, function (req, res, next) {
+    // const { email, ffname, llname, passwords, roleuser } = req.body;
 
-        if (result.length > 0) {
-            bcrypt.compare(password, result[0].password, (error, response) => {
-                if (response) {
-                    // req.session.user = result;
-                    // console.log(req.session.user);
-                    res.send(result);
-                } else {
-                    res.send({ message: "Wrong username/password combination!" });
+    bcrypt.hash(req.body.passwords, saltRounds, function (err, hash) {
+        conn.query('INSERT INTO usersy (ffname, llname, email, passwords, roleuser) VALUES (?, ?, ?, ?, ?)',
+            [req.body.ffname, req.body.llname, req.body.email, hash, req.body.roleuser],
+            function (err, result, fields) {
+                if (err) {
+                    res.json({ status: 'error', message: err })
+                    return
                 }
-            });
-        } else {
-            res.send({ message: "User doesn't exist" });
+                res.json({ status: 'OK' })
+            })
+    });
+})
+
+router.post('/loginuser', jsonParser, function (req, res, next) {
+    // const { email, ffname, llname, passwords, roleuser } = req.body;
+
+    conn.query('SELECT * FROM usersy WHERE email=?', [req.body.email], function (err, users, fields) {
+        if (err) {
+            res.json({ status: 'error', message: err });
+            return
         }
+        if (users.length == 0) {
+            res.json({ status: 'error', message: 'no user found' });
+            return
+        }
+        bcrypt.compare(req.body.passwords, users[0].passwords, function (err, isLogin) {
+            if (isLogin) {
+                var token = jwt.sign({ email: users[0].email }, secret, { expiresIn: '1h' });
+                res.json({ status: 'ok', message: 'login success', token })
+
+            } else {
+                res.json({ status: 'error', message: 'login failed' })
+            }
+        });
+        // res.json({ status: 'OK' })
     })
+})
+
+router.post('/authuser', jsonParser, function (req, res, next) {
+    try {
+        const token = req.headers.authorization.split(' ')[1]
+        var decoded = jwt.verify(token, secret);
+        res.json({status: 'ok', decoded})
+        // res.json({ decoded })
+    } catch (error) {
+        res.json({status: 'error', message: err})
+    }
 
 })
 
