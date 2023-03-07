@@ -10,6 +10,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 var jwt = require('jsonwebtoken');
 const secret = 'DocumentSystem'
+
 // const session = require("express-session");
 
 
@@ -212,6 +213,50 @@ router.post('/authuser', jsonParser, function (req, res, next) {
         // res.json({ decoded })
     } catch (error) {
         res.json({status: 'error', message: err})
+    }
+
+})
+
+//get userRole
+router.get('/getuser',  jsonParser, (req,res) => {
+    // const {email} = req.body;
+
+    // try {
+    //     const token = req.headers.authorization.split(' ')[1]
+    //     var decoded = jwt.verify(token, secret);
+    //     res.json({ decoded })
+    //     conn.query(`SELECT * FROM usersy WHERE email=?`, decoded.email,(err, result) => {
+    //         if (err) {
+    //             console.log("error")
+    //         } else {
+    //             console.log("username show")
+    //             res.status(201).json({ status: 201, data: result})
+    //         }
+    //     })
+    // } catch (error) {
+    //     res.status(422).json({ status: 422, error })
+    // }
+    try {
+        const token = req.headers.authorization.split(' ')[1]
+  
+        const verified = jwt.verify(token, secret);
+        if(verified){
+            // return res.json(verified);
+            conn.query(`SELECT * FROM usersy WHERE email=?`, [verified.email], (err, result) => {
+                if (err) {
+                        console.log("error")
+                    } else {
+                        console.log("username show")
+                        res.status(201).json({ status: 201, data: result})
+                    }
+            })
+        }else{
+            // Access Denied
+            return res.status(401).send(error);
+        }
+    } catch (error) {
+        // Access Denied
+        return res.status(401).send(error);
     }
 
 })

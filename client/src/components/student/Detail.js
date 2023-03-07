@@ -5,7 +5,8 @@ import { Viewer, Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
-import { useParams } from "react-router-dom"
+import { useParams } from "react-router-dom";
+// import Header from '../Header';
 
 const Detail = () => {
 
@@ -39,6 +40,7 @@ const Detail = () => {
 
     return (
         <>
+            {/* <Header/> */}
             <div className='container mt-3'>
                 {
                     data.map((el) => {

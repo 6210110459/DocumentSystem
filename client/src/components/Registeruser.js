@@ -29,11 +29,10 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function Registeruser() {
+  const handleSubmit = async e => {
+    e.preventDefault();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const data = new FormData(event.currentTarget);
+    const data = new FormData(e.currentTarget);
     const jsonData = {
       email: data.get('email'),
       passwords: data.get('password'),
@@ -51,11 +50,14 @@ export default function Registeruser() {
     })
       .then(response => response.json())
       .then(data => {
-        if (data.status === 'ok') {
-          alert('register success')
-          window.location = "/login"
-        } else {
+        if ( data.status === 'ok') {
+          // alert('register success')
+          // window.location = "/login"
           alert('register failed')
+        } else {
+          // alert('register failed')
+          alert('register success')
+          window.location = "/"
         }
       })
       .catch((error) => {
@@ -79,6 +81,7 @@ export default function Registeruser() {
           <Typography component="h1" variant="h5">
             Sign up
           </Typography>
+
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
@@ -92,6 +95,7 @@ export default function Registeruser() {
                   autoFocus
                 />
               </Grid>
+
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
@@ -102,6 +106,7 @@ export default function Registeruser() {
                   autoComplete="family-name"
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -112,15 +117,7 @@ export default function Registeruser() {
                   autoComplete="role"
                 />
               </Grid>
-              {/* <Autocomplete
-                  disablePortal
-                  id="status"
-                  options={roleregis}
-                  fullWidth
-                  
-                  // sx={{ width: 300 }}
-                  renderInput={(params) => <TextField {...params} label="Status Role" />}
-                /> */}
+          
               <Grid item xs={12}>
                 <TextField
                   required
@@ -131,6 +128,7 @@ export default function Registeruser() {
                   autoComplete="email"
                 />
               </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
@@ -143,6 +141,7 @@ export default function Registeruser() {
                 />
               </Grid>
             </Grid>
+
             <Button
               type="submit"
               fullWidth
@@ -151,13 +150,15 @@ export default function Registeruser() {
             >
               Sign Up
             </Button>
+
             <Grid container>
               <Grid item>
                 <Link href="/login" variant="body2">
-                  {"Don't have an account? Sign in"}
+                  {"Do have an account? Sign in"}
                 </Link>
               </Grid>
             </Grid>
+
           </Box>
         </Box>
         <Copyright sx={{ mt: 5 }} />

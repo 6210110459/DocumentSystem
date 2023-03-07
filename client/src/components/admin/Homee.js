@@ -39,7 +39,7 @@ const Homee = () => {
             <div className='container mt-2'>
                 <h1 className='text-center mt-5'>Document Upload Projects With Mysql database</h1>
 
-                <div className="search col-lg-4">
+                <div className="search mt-2">
                     <Form className="d-flex">
                         <Form.Control
                             type="search"
@@ -51,8 +51,8 @@ const Homee = () => {
                     </Form>
                 </div>
 
-                <div className='d-flex align-iteams-center mt-5'>
-                    <Table hover>
+                <div className='align-iteams-center mt-5'>
+                    <Table hover responsive="sm">
                         <thead>
                             <tr className="table-dark">
                                 <th>#</th>

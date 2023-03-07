@@ -27,17 +27,6 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-//Get username and password parameters. => credentials
-// async function loginUser(credentials) {
-//     return axios('/login', {
-//         method: 'POST',
-//         headers: {
-//             'Content-type': 'application/json'
-//         },
-//         body: JSON.stringify(credentials)
-//     }).then(data => data.json())
-// }
-
 export default function SignInSide() {
 
     const handleSubmit = async e => {
@@ -59,8 +48,9 @@ export default function SignInSide() {
             .then(data => {
                 if (data.status === 'ok') {
                     alert('login success')
-                    localStorage.setItem('token', data.token)
-                    window.location = "/"
+                    localStorage.setItem('token', data.token) 
+                    // window.location = "/home"
+                    PageHome(data)
                 } else {
                     alert('login failed')
                 }
@@ -69,6 +59,15 @@ export default function SignInSide() {
                 console.error("Error:", error);
             });
     };
+
+    const PageHome = (data) => {
+        if (data.token){
+            data.roleuser === 'student' ? window.location = "/home" 
+            : data.roleuser === 'teacher' ? window.location = "/teacher/home" 
+            : window.location = "/admin/home" 
+
+        }
+    }
 
     return (
         <ThemeProvider theme={theme}>
@@ -104,6 +103,7 @@ export default function SignInSide() {
                         <Typography sx={{ mt: 3, mb: 2 }} component="h1" variant="h5">
                             Sign in
                         </Typography>
+
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
                             <TextField
                                 margin="normal"
@@ -133,6 +133,7 @@ export default function SignInSide() {
                             >
                                 Sign In
                             </Button>
+
                             <Grid container>
                                 <Grid item>
                                     <Link href="/register" variant="body2">
@@ -140,6 +141,7 @@ export default function SignInSide() {
                                     </Link>
                                 </Grid>
                             </Grid>
+
                             <Copyright sx={{ mt: 5 }} />
                         </Box>
                     </Box>

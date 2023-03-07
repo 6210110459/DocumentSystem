@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+// import Header from '../Header';
 
 const Register = () => {
 
@@ -45,7 +46,7 @@ const Register = () => {
 
         //return to home pageWeb
         if (res.data.status === 201) {
-            history("/")
+            history("/home")
         } else {
             console.log("error")
         }
@@ -53,6 +54,7 @@ const Register = () => {
 
     return (
         <>
+            {/* <Header /> */}
             <div className='container mt-3'>
                 <h1>Upload Your File Here</h1>
 

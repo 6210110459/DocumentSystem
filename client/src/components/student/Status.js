@@ -8,6 +8,7 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
+// import Header from '../Header';
 
 const Status = () => {
 
@@ -18,7 +19,7 @@ const Status = () => {
         const res = await axios.get("/getdata", {
             headers: {
                 "Content-Type": "application/json"
-            }
+            },
         });
 
         if (res.data.status === 201) {
@@ -38,6 +39,7 @@ const Status = () => {
 
     return (
         <>
+            {/* <Header /> */}
             <div className="container mt-3">
                 <h1>Status Your File Here</h1>
                 {/* <div>
@@ -64,6 +66,7 @@ const Status = () => {
                                 placeholder="Search"
                                 className="me-2"
                                 aria-label="Search"
+                                // onChange={(e)=>setSearch(e.target.value)}
                             />
                             <Button variant="primary" className='search_btn'>Search</Button>
                         </Form>

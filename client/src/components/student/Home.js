@@ -49,32 +49,6 @@ const Home = () => {
         }
     }
 
-    
-    // const getLoginUser = async () => {
-    //     const token = localStorage.getItem('token')
-
-    //     axios("http://localhost:8004/authuser", {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             'Authorization': 'Bearer'+token
-    //         }
-    //     })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if (data.status === 'ok') {
-    //                 // alert('authen success')
-    //             } else {
-    //                 alert('authen failed')
-    //                 localStorage.removeItem('token')
-    //                 window.location = "/login"
-    //             }
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error:", error)
-    //         });
-    // }
-
     useEffect(() => {
         const token = localStorage.getItem('token')
 
@@ -89,11 +63,12 @@ const Home = () => {
             .then(data => {
                 if (data.status === 'ok') {
                     // alert('authen success')
+                    // console.log(data.decode)
                     getUserData()
                 } else {
                     alert('authen failed')
                     localStorage.removeItem('token')
-                    window.location = "/login"
+                    window.location = "/"
                 }
             })
             .catch((error) => {
