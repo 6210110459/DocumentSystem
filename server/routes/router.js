@@ -47,7 +47,7 @@ router.post("/register", upload.single("photo"), (req, res) => {
     // console.log(req.body);
     const { tname, fname, dname } = req.body;
     const { filename } = req.file;
-    const { status } = req.body;
+    const { status} = req.body;
 
     if (!fname || !filename || !tname || !dname || !status) {
         res.status(422).json({ status: 422, message: "fill all the details" })
@@ -59,7 +59,8 @@ router.post("/register", upload.single("photo"), (req, res) => {
 
         conn.query("INSERT INTO usersdata SET ?", { topic: tname, username: fname, userfile: filename, decs: dname, status_id: status, date: date }, (err, result) => {
             if (err) {
-                console.log("error")
+                console.log("error noconnect")
+                res.json({message: err})
             } else {
                 console.log("data added")
                 res.status(201).json({ status: 201, data: req.body })
@@ -205,7 +206,7 @@ router.post('/loginuser', jsonParser, function (req, res, next) {
         bcrypt.compare(req.body.passwords, users[0].passwords, function (err, isLogin) {
             if (isLogin) {
                 var token = jwt.sign({ email: users[0].email }, secret, { expiresIn: '1h' });
-                res.json({ status: 'ok', message: 'login success', token, data: users })
+                res.json({ status: 'ok', message: 'login success', token, data: users[0].roleuser })
 
             } else {
                 res.json({ status: 'error', message: 'login failed' })
