@@ -4,9 +4,9 @@ import Table from 'react-bootstrap/esm/Table';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import EditIcon from '@mui/icons-material/Edit';
 import Chip from '@mui/material/Chip';
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom";
-import Form from 'react-bootstrap/Form';
+// import Form from 'react-bootstrap/Form';
 
 
 const Homee = () => {
@@ -39,7 +39,7 @@ const Homee = () => {
             <div className='container mt-2'>
                 <h1 className='text-center mt-5'>Document Upload Projects With Mysql database</h1>
 
-                <div className="search mt-2">
+                {/* <div className="search mt-2">
                     <Form className="d-flex">
                         <Form.Control
                             type="search"
@@ -49,7 +49,7 @@ const Homee = () => {
                         />
                         <Button variant="primary" className='search_btn'>Search</Button>
                     </Form>
-                </div>
+                </div> */}
 
                 <div className='align-iteams-center mt-5'>
                     <Table hover responsive="sm">

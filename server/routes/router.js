@@ -75,6 +75,9 @@ router.post("/register", upload.single("photo"), (req, res) => {
 
 // get user data
 router.get("/getdata", (req, res) => {
+    // const page = req.query.page;
+    // const items = req.query.items;
+
     try {
         conn.query("SELECT usersdata.id, usersdata.topic, usersdata.username, usersdata.date, usersdata.decs,statusfile.status_file FROM usersdata INNER JOIN statusfile on statusfile.id = usersdata.status_id",
             (err, result) => {
@@ -83,6 +86,13 @@ router.get("/getdata", (req, res) => {
                 } else {
                     console.log("data get")
                     res.status(201).json({ status: 201, data: result })
+                    // if (page && items) {
+                    //     page = page !== 'undefined' ? parseInt(page, 10) : undefined;
+                    //     items = items !== 'undefined' ? parseInt(items, 10) : undefined;
+                    //     res.status(200).json({ users: users.search(page, items) });
+                    // } else {
+                    //     console.log("error")
+                    // }
                 }
             })
     } catch (error) {
@@ -195,7 +205,7 @@ router.post('/loginuser', jsonParser, function (req, res, next) {
         bcrypt.compare(req.body.passwords, users[0].passwords, function (err, isLogin) {
             if (isLogin) {
                 var token = jwt.sign({ email: users[0].email }, secret, { expiresIn: '1h' });
-                res.json({ status: 'ok', message: 'login success', token })
+                res.json({ status: 'ok', message: 'login success', token, data: users })
 
             } else {
                 res.json({ status: 'error', message: 'login failed' })
@@ -209,48 +219,32 @@ router.post('/authuser', jsonParser, function (req, res, next) {
     try {
         const token = req.headers.authorization.split(' ')[1]
         var decoded = jwt.verify(token, secret);
-        res.json({status: 'ok', decoded})
+        res.json({ status: 'ok', decoded })
         // res.json({ decoded })
     } catch (error) {
-        res.json({status: 'error', message: err})
+        res.json({ status: 'error', message: err })
     }
 
 })
 
 //get userRole
-router.get('/getuser',  jsonParser, (req,res) => {
-    // const {email} = req.body;
+router.get('/getuser', jsonParser, (req, res) => {
 
-    // try {
-    //     const token = req.headers.authorization.split(' ')[1]
-    //     var decoded = jwt.verify(token, secret);
-    //     res.json({ decoded })
-    //     conn.query(`SELECT * FROM usersy WHERE email=?`, decoded.email,(err, result) => {
-    //         if (err) {
-    //             console.log("error")
-    //         } else {
-    //             console.log("username show")
-    //             res.status(201).json({ status: 201, data: result})
-    //         }
-    //     })
-    // } catch (error) {
-    //     res.status(422).json({ status: 422, error })
-    // }
     try {
         const token = req.headers.authorization.split(' ')[1]
-  
+
         const verified = jwt.verify(token, secret);
-        if(verified){
+        if (verified) {
             // return res.json(verified);
             conn.query(`SELECT * FROM usersy WHERE email=?`, [verified.email], (err, result) => {
                 if (err) {
-                        console.log("error")
-                    } else {
-                        console.log("username show")
-                        res.status(201).json({ status: 201, data: result})
-                    }
+                    console.log("error")
+                } else {
+                    console.log("username show")
+                    res.status(201).json({ status: 201, data: result })
+                }
             })
-        }else{
+        } else {
             // Access Denied
             return res.status(401).send(error);
         }

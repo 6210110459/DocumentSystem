@@ -39,6 +39,7 @@ const Header = () => {
                     console.log(result)
                 } else {
                     console.log("time out")
+                    window.location = "/"
                 }
 
             })

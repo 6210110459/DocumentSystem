@@ -5,9 +5,9 @@ import Table from 'react-bootstrap/Table';
 import Chip from '@mui/material/Chip';
 import { NavLink } from "react-router-dom"
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Dropdown from 'react-bootstrap/Dropdown';
+// import Form from 'react-bootstrap/Form';
+// import Button from 'react-bootstrap/Button';
+// import Dropdown from 'react-bootstrap/Dropdown';
 // import Header from '../Header';
 
 const Status = () => {
@@ -48,7 +48,7 @@ const Status = () => {
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
                 </div> */}
-                <div className="mt-4 d-flex justify-content-between">
+                {/* <div className="mt-4 d-flex justify-content-between">
                     <div className="filter_status">
                         <Dropdown className='text-center'>
                             <Dropdown.Toggle id="dropdown-basic" variant="warning">สถานะเอกสาร</Dropdown.Toggle>
@@ -71,7 +71,7 @@ const Status = () => {
                             <Button variant="primary" className='search_btn'>Search</Button>
                         </Form>
                     </div>
-                </div>
+                </div> */}
 
                 <div className='d-flex align-iteams-center mt-3'>
                     <Table bordered hover>

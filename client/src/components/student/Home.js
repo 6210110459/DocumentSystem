@@ -122,7 +122,7 @@ const Home = () => {
                                                     }
                                                 </td>
                                                 <td className="d-flex justify-content-evenly">
-                                                    <NavLink to={`detail/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
+                                                    <NavLink to={`/detail/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
                                                     {/* <NavLink to={`edit/${el.id}`}><button className="btn btn-primary"><EditIcon /></button></NavLink> */}
                                                     <button className="btn btn-danger" onClick={() => dltUser(el.id)}><DeleteIcon /></button>
                                                 </td>

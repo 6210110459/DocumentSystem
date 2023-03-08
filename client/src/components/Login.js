@@ -10,7 +10,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-// import axios from 'axios';
+// import Registeruser from './Registeruser';
 
 function Copyright(props) {
     return (
@@ -48,9 +48,14 @@ export default function SignInSide() {
             .then(data => {
                 if (data.status === 'ok') {
                     alert('login success')
-                    localStorage.setItem('token', data.token) 
-                    // window.location = "/home"
-                    PageHome(data)
+                    localStorage.setItem('token', data.token)
+                    if(data.data.roleuser === 'student') {
+                        window.location = "/home"
+                    } else if (data.data.roleuser === 'teacher') {
+                        window.location = "/teacher/home"
+                    } else {
+                        window.location = "/admin/home"
+                    }
                 } else {
                     alert('login failed')
                 }
@@ -59,15 +64,6 @@ export default function SignInSide() {
                 console.error("Error:", error);
             });
     };
-
-    const PageHome = (data) => {
-        if (data.token){
-            data.roleuser === 'student' ? window.location = "/home" 
-            : data.roleuser === 'teacher' ? window.location = "/teacher/home" 
-            : window.location = "/admin/home" 
-
-        }
-    }
 
     return (
         <ThemeProvider theme={theme}>
