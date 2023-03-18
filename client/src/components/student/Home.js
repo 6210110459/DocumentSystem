@@ -16,10 +16,14 @@ const Home = () => {
 
     const [show, setShow] = useState(false);
 
-    // const {email} = useState("");
+    
+    // const [user] = useState(users[0].id)
+    // console.log(user)
+    // const { id } = useParams('');
+    // console.log(id);
 
-    const getUserData = async (email) => {
-        const res = await axios.get(`/getdata`, {
+    const getUserData = async (id) => {
+        const res = await axios.get(`/getdata/${id}`, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -55,6 +59,9 @@ const Home = () => {
 
     useEffect(() => {
         const token = localStorage.getItem('token')
+        const users = JSON.parse(localStorage.getItem('users'))
+        console.log(users[0].id)
+        
 
         fetch("http://localhost:8004/authuser", {
             method: "POST",
@@ -67,9 +74,10 @@ const Home = () => {
             .then(data => {
                 if (data.status === 'ok') {
                     // alert('authen success')
-                    console.log(data.decoded.email)
+                    // console.log(data.decoded.email)
                     // const email = data.decoded.email;
-                    getUserData()
+                    // console.log(users[0].id)
+                    getUserData(users[0].id)
                 } else {
                     alert('authen failed')
                     localStorage.removeItem('token')
@@ -105,7 +113,7 @@ const Home = () => {
                             <tr className="table-dark">
                                 <th>#</th>
                                 <th>Topic</th>
-                                <th>Action</th>
+                                {/* <th>Action</th> */}
                                 <th>Status</th>
                                 <th>Date Added</th>
                                 <th>Date Status</th>
@@ -120,7 +128,7 @@ const Home = () => {
                                             <tr>
                                                 <th>{id + 1}</th>
                                                 <td>{el.topic}</td>
-                                                <td>{el.username}</td>
+                                                {/* <td>{el.ffname} {el.llname}</td> */}
                                                 <td>
                                                     {/* {
                                                         data.length > 0 ?

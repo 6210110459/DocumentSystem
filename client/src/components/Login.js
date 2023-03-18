@@ -49,7 +49,8 @@ export default function SignInSide() {
                 if (data.status === 'ok') {
                     alert('login success')
                     localStorage.setItem('token', data.token)
-                    localStorage.setItem('users', data.data)
+                    localStorage.setItem('users', JSON.stringify(data.data))
+                    // console.log('users')
                     if (data.data[0].roleuser === 'student') {
                         window.location = "/home"
                     } else if (data.data[0].roleuser === 'teacher') {

@@ -93,7 +93,7 @@ const Homee = () => {
                                             <tr>
                                                 <th>{id + 1}</th>
                                                 <td>{el.topic}</td>
-                                                <td>{el.username}</td>
+                                                <td>{el.ffname} {el.llname}</td>
                                                 <td>
                                                     <Chip label={el.status_file} color={el.status_file === 'รอการดำเนิน' ? 'warning' : 'success'}></Chip>
                                                 </td>

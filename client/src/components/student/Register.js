@@ -28,12 +28,16 @@ const Register = () => {
     const addUserData = async (e) => {
         e.preventDefault();
 
+        const users = JSON.parse(localStorage.getItem('users'))
+        console.log(users[0].id)
+
         var formData = new FormData();
         formData.append("photo", file)
         formData.append("fname", fname)
         formData.append("tname", tname)
         formData.append("dname", dname)
         formData.append("status", statusf)
+        formData.append("user", users[0].id)
 
         const config = {
             headers: {
