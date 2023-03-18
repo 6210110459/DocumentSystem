@@ -1,9 +1,9 @@
 import Card from 'react-bootstrap/Card';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
 import axios from 'axios';
 import { Viewer, Worker } from '@react-pdf-viewer/core';
 import '@react-pdf-viewer/core/lib/styles/index.css';
-import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
+import { defaultLayoutPlugin} from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import { useParams } from "react-router-dom";
 // import Header from '../Header';
@@ -15,11 +15,11 @@ const Detail = () => {
     const [data, setData] = useState([]);
     console.log(data);
 
-    const {id} = useParams("");
+    const { id } = useParams("");
     // console.log(id);
 
     const getUserData2 = async (id) => {
-        const res = await axios.get(`/induser/${id}`,{
+        const res = await axios.get(`/induser/${id}`, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -55,10 +55,10 @@ const Detail = () => {
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
-
+                            
                                 <div style={{ height: '100%' }} className='mt-3' >
                                     <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.1.81/build/pdf.worker.min.js" >
-                                        <Viewer fileUrl={`/uploads/${el.userfile}`} plugins={[defaultLayoutPluginInstance]}/>
+                                        <Viewer fileUrl={`/uploads/${el.userfile}`} plugins={[defaultLayoutPluginInstance]} />
                                     </Worker>
                                 </div>
                             </>

@@ -19,11 +19,11 @@ import Detaill from './components/admin/Detaill';
 import HomeT from './components/teacher/HomeT';
 
 function App() {
-  const token = localStorage.getItem('token')
+  // const token = localStorage.getItem('token')
 
-  if (!token) {
-    return <Login />
-  }
+  // if (!token) {
+  //   return <Login />
+  // }
 
   return (
     <>
@@ -31,7 +31,7 @@ function App() {
         <Header />
         <Routes>
           {/* student page */}
-          {/* <Route path='/' element={<Login />} /> */}
+          <Route path='/' element={<Login />} />
           <Route path='/register' element={<Registeruser />} />
           <Route path='/home' element={<Home />} />
           <Route path='/upload' element={<Register />} />

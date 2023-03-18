@@ -25,7 +25,6 @@ var fileconfig = multer.diskStorage({
     }
 });
 
-
 //file filter
 const isFile = (req, file, callback) => {
     if (file.mimetype.startsWith("image")) {
@@ -47,7 +46,7 @@ router.post("/register", upload.single("photo"), (req, res) => {
     // console.log(req.body);
     const { tname, fname, dname } = req.body;
     const { filename } = req.file;
-    const { status} = req.body;
+    const { status } = req.body;
 
     if (!fname || !filename || !tname || !dname || !status) {
         res.status(422).json({ status: 422, message: "fill all the details" })
@@ -60,7 +59,7 @@ router.post("/register", upload.single("photo"), (req, res) => {
         conn.query("INSERT INTO usersdata SET ?", { topic: tname, username: fname, userfile: filename, decs: dname, status_id: status, date: date }, (err, result) => {
             if (err) {
                 console.log("error noconnect")
-                res.json({message: err})
+                res.json({ message: err })
             } else {
                 console.log("data added")
                 res.status(201).json({ status: 201, data: req.body })
@@ -80,7 +79,7 @@ router.get("/getdata", (req, res) => {
     // const items = req.query.items;
 
     try {
-        conn.query("SELECT usersdata.id, usersdata.topic, usersdata.username, usersdata.date, usersdata.decs,statusfile.status_file FROM usersdata INNER JOIN statusfile on statusfile.id = usersdata.status_id",
+        conn.query("SELECT usersdata.id, usersdata.topic, usersdata.username, usersdata.date, usersdata.decs, usersdata.date_edit, statusfile.status_file FROM usersdata INNER JOIN statusfile on statusfile.id = usersdata.status_id",
             (err, result) => {
                 if (err) {
                     console.log("error")
@@ -99,6 +98,42 @@ router.get("/getdata", (req, res) => {
     } catch (error) {
         res.status(422).json({ status: 422, error })
     }
+})
+
+//get data follow user
+router.get("/getuser/:email", jsonParser, (req, res) => {
+    const { email } = req.body;
+
+    conn.query(`SELECT * FROM usersy WHERE email=?`, [email], (err, resemail) => {
+        if (resemail) {
+            res.json({data: resemail[0].id})
+            const id_email = req.json(resemail[0].id)
+        }
+        // if (err) {
+        //     console.log("error")
+        // } else {
+        //     console.log("get data user")
+        //     // const id_email = res.json({data: result[0].id})
+        //     // console.log(result[0].id)
+        //     const id_email = resemail.id;
+        //     try {
+        //         conn.query(`SELECT * FROM usersdata WHERE usersy_id=?`, [id_email], (err, result) => {
+        //             if (err) {
+        //                 console.log("error")
+        //             } else {
+        //                 console.log("get data user2")
+        //                 // console.log(result)
+        //                 res.status(201).json({ status: 201, data: result })
+        //             }
+        //         })
+        //     } catch (error) {
+        //         // Access Denied
+        //         return res.status(401).send(error);
+        //     }
+
+        // }
+    })
+
 })
 
 // delete user
@@ -142,7 +177,9 @@ router.put("/update/:id", upload.single("photo"), (req, res) => {
     const { status } = req.body;
 
     try {
-        conn.query("UPDATE usersdata SET userfile = ?, status_id = ? WHERE id = ?", [filename, status, id], (err, result) => {
+        let dateedit = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
+
+        conn.query("UPDATE usersdata SET userfile = ?, status_id = ?, date_edit=? WHERE id = ?", [filename, status, dateedit, id], (err, result) => {
             if (err) {
                 console.log("error")
             } else {
@@ -206,7 +243,7 @@ router.post('/loginuser', jsonParser, function (req, res, next) {
         bcrypt.compare(req.body.passwords, users[0].passwords, function (err, isLogin) {
             if (isLogin) {
                 var token = jwt.sign({ email: users[0].email }, secret, { expiresIn: '1h' });
-                res.json({ status: 'ok', message: 'login success', token, data: users[0].roleuser })
+                res.json({ status: 'ok', message: 'login success', token, data: users })
 
             } else {
                 res.json({ status: 'error', message: 'login failed' })
@@ -229,7 +266,7 @@ router.post('/authuser', jsonParser, function (req, res, next) {
 })
 
 //get userRole
-router.get('/getuser', jsonParser, (req, res) => {
+router.get('/getrole', jsonParser, (req, res) => {
 
     try {
         const token = req.headers.authorization.split(' ')[1]
@@ -255,5 +292,11 @@ router.get('/getuser', jsonParser, (req, res) => {
     }
 
 })
+
+//status faile
+// router.put('/postdecs/id', (req,res) => {
+//     const { id } = req.params;
+//     const { status, decs } = req.body;
+// })
 
 module.exports = router;

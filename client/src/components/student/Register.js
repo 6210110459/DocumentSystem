@@ -80,15 +80,6 @@ const Register = () => {
 
                     </Form.Group>
 
-                    {/* <Form.Group className="mb-3">
-                        <Form.Check
-                            type="checkbox"
-                            id="status"
-                            label="เอกสารเรียบร้อย"
-                            onChange={(e) => setStatus(e.target.value)}
-                        />
-                    </Form.Group> */}
-
                     <Button className="mb-2" variant="primary" type="submit" onClick={addUserData} >
                         Submit
                     </Button>

@@ -30,7 +30,30 @@ const HomeT = () => {
     }
 
     useEffect(() => {
-        getData()
+        const token = localStorage.getItem('token')
+
+        fetch("http://localhost:8004/authuser", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer '+token
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    // alert('authen success')
+                    // console.log(data.decode)
+                    getData()
+                } else {
+                    alert('authen failed')
+                    localStorage.removeItem('token')
+                    window.location = "/"
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error)
+            });
     }, [])
 
     return (

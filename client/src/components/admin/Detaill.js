@@ -8,6 +8,10 @@ import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import EditIcon from '@mui/icons-material/Edit';
 import Button from 'react-bootstrap/Button';
 import { NavLink, useParams } from "react-router-dom";
+import { FormControl, FormControlLabel } from '@mui/material';
+import Switch from '@mui/material/Switch';
+// import TextField from '@mui/material/TextField';
+// import Box from '@mui/material/Box';
 
 const Detail = () => {
 
@@ -39,13 +43,30 @@ const Detail = () => {
         getUserData2(id)
     }, [id])
 
+    // const [status, setStatus] = useState(false);
+    // const [decs, setDecs] = useState([]);
+
+    // const stA = (e) => {
+    //     if (setStatus(true)) {
+    //         setDecs(e.target.value)
+    //     } else {
+    //         console.log('no work function')
+    //     }
+    // }
+
+    // const stUser = async (e) => {
+    //     e.preventDefault();
+    //     setStatus(true)
+
+    //     var formData = new FormData();
+    //     formData.append('decs', decs);
+    //     formData.append('status', status);
+
+
+    // }
+
     return (
         <>
-            {/* {
-                statusf ? <Alert variant="primary" onClose={() => setStatus()} dismissible>
-                    Download File
-                </Alert> : ""
-            } */}
             <div className='container mt-3'>
                 {
                     data.map((el) => {
@@ -54,6 +75,8 @@ const Detail = () => {
                                 <div className='text-end'>
                                     <Button variant="primary"><NavLink to={`/update/${el.id}`} className="text-decoration-none text-light"><EditIcon /> update </NavLink></Button>
                                 </div>
+
+
 
                                 <Card style={{ width: '100%' }} className='mt-2' >
                                     <Card.Header as="h5">{el.username}</Card.Header>
@@ -64,6 +87,32 @@ const Detail = () => {
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
+
+                                <FormControl>
+                                    <FormControlLabel
+                                        value={true}
+                                        // onClick={stA}
+                                        control={<Switch color="error" />}
+                                        label="เอกสารไม่เรียบร้อย"
+                                        // labelPlacement="start"
+                                    />
+                                </FormControl>
+{/* 
+                                {
+                                    status === true ? <Box onClose={() => setStatus()}>
+                                    <TextField
+                                        id="standard-multiline-flexible"
+                                        label="สาเหตุเอกสารไม่เรียบร้อย"
+                                        multiline
+                                        fullWidth
+                                        variant="standard"
+                                    />
+                                </Box> : ""
+                                }
+                                 */}
+                                <div>
+
+                                </div>
 
                                 <div style={{ height: '100%' }} className='mt-3' >
                                     <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.1.81/build/pdf.worker.min.js" >

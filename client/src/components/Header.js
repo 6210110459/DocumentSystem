@@ -16,7 +16,6 @@ const Header = () => {
 
     // const email
     const [user, setUser] = useState([]);
-    // const [isLoaded, setLoaded] = useState(true);
 
     const getUserR = () => {
         const token = localStorage.getItem('token')
@@ -31,27 +30,18 @@ const Header = () => {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:8004/getuser", requestOptions)
+        fetch("http://localhost:8004/getrole", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.status === 201) {
                     setUser(result.data)
                     console.log(result)
-                } else {
-                    console.log("time out")
-                    window.location = "/"
                 }
 
             })
 
             .catch(error => console.log('error', error));
-
     }
-
-    // const getUserRR = async (email) => {
-
-    // }
-
 
     useEffect(() => {
         getUserR()
@@ -115,7 +105,7 @@ const Header = () => {
                                         <Navbar.Collapse id="responsive-navbar-nav">
                                             <Nav className="me-auto">
                                                 <Nav.Link href="/upload">Upload</Nav.Link>
-                                                <Nav.Link href="/status">Status</Nav.Link>
+                                                {/* <Nav.Link href="/status">Status</Nav.Link> */}
                                             </Nav>
                                             <Nav>
                                                 <Nav.Link href="/home">{el.ffname} {el.llname}</Nav.Link>

@@ -6,6 +6,8 @@ import Alert from 'react-bootstrap/Alert';
 import Table from 'react-bootstrap/Table'
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Chip from '@mui/material/Chip';
+import moment from "moment";
 // import Header from '../Header';
 
 const Home = () => {
@@ -14,8 +16,10 @@ const Home = () => {
 
     const [show, setShow] = useState(false);
 
-    const getUserData = async () => {
-        const res = await axios.get("/getdata", {
+    // const {email} = useState("");
+
+    const getUserData = async (email) => {
+        const res = await axios.get(`/getdata`, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -24,7 +28,7 @@ const Home = () => {
         if (res.data.status === 201) {
             console.log("data get");
             setData(res.data.data)
-
+            console.log(res.data.data)
         } else {
             console.log("error")
 
@@ -56,14 +60,15 @@ const Home = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': 'Bearer '+token
+                'Authorization': 'Bearer ' + token
             }
         })
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'ok') {
                     // alert('authen success')
-                    // console.log(data.decode)
+                    console.log(data.decoded.email)
+                    // const email = data.decoded.email;
                     getUserData()
                 } else {
                     alert('authen failed')
@@ -76,6 +81,7 @@ const Home = () => {
             });
 
     }, [])
+
 
     return (
         <>
@@ -94,13 +100,15 @@ const Home = () => {
                 </div>
 
                 <div className='align-iteams-center mt-3'>
-                    <Table bordered hover responsive="sm">
+                    <Table hover responsive="sm">
                         <thead>
                             <tr className="table-dark">
                                 <th>#</th>
                                 <th>Topic</th>
                                 <th>Action</th>
                                 <th>Status</th>
+                                <th>Date Added</th>
+                                <th>Date Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -114,64 +122,36 @@ const Home = () => {
                                                 <td>{el.topic}</td>
                                                 <td>{el.username}</td>
                                                 <td>
-                                                    {
+                                                    {/* {
                                                         data.length > 0 ?
                                                             <Alert variant="success" >
                                                                 Submitted
-                                                            </Alert> : ""
-                                                    }
+                                                            </Alert>  
+                                                            : ""
+                                                    } */}
+                                                    <Chip label={el.status_file} 
+                                                        color={el.status_file === 'รอการดำเนิน' ? 'warning' : 'success'}
+                                                        ></Chip>
                                                 </td>
+
+                                                <td>{moment(el.date).format("DD-MM-YYYY")}</td>
+                                                <td>{el.date_edit !== null ? moment(el.date_edit).format("DD-MM-YYYY") : "-"}</td>
+
                                                 <td className="d-flex justify-content-evenly">
                                                     <NavLink to={`/detail/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
                                                     {/* <NavLink to={`edit/${el.id}`}><button className="btn btn-primary"><EditIcon /></button></NavLink> */}
-                                                    <button className="btn btn-danger" onClick={() => dltUser(el.id)}><DeleteIcon /></button>
+                                                    {/* <button className="btn btn-danger" onClick={() => dltUser(el.id)}><DeleteIcon /></button> */}
+                                                    {
+                                                        el.status_file === 'รอการดำเนิน' ?
+                                                            <button className="btn btn-danger" onClick={() => dltUser(el.id)}><DeleteIcon /></button> : ""
+                                                    }
+
                                                 </td>
                                             </tr>
                                         </>
                                     )
                                 })
                             }
-                            {/* <tr>
-                                <td>1</td>
-                                <td>การยื่นเรื่องคำร้อง 1</td>
-                                <td>
-                                    {
-                                        data.length > 0 ? data.map((el) => {
-                                            return (
-                                                <>
-                                                    <p className='text-center'>{el.username}, {moment(el.date).format("DD-MM-YYYY-hh:mm")}</p>
-                                                    <Button variant="danger" onClick={() => dltUser(el.id)} className='align-iteams-center text-center'>Delete</Button>
-                                                </>
-                                            )
-                                        }) : ""
-                                    }
-                                </td>
-                                <td>
-                                    {
-                                        data.length > 0 ?
-                                            <Alert variant="success" >
-                                                Submitted
-                                            </Alert> : <Alert variant="info">
-                                                Opened
-                                            </Alert>
-                                    }
-                                </td>
-                            </tr> */}
-                            {/* <tr>
-                                <td>2</td>
-                                <td>การยื่นเรื่องคำร้อง 1</td>
-                                <td>621011XXX</td>
-                                <td>
-                                    <Alert variant="success">
-                                        Submitted
-                                    </Alert>
-                                </td>
-                                <td className="d-flex justify-content-evenly">
-                                    <button className="btn btn-success"><RemoveRedEyeIcon /></button>
-                                    <button className="btn btn-primary"><EditIcon /></button>
-                                    <button className="btn btn-danger"><DeleteIcon /></button>
-                                </td>
-                            </tr> */}
                         </tbody>
                     </Table>
                 </div>
