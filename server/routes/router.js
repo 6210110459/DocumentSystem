@@ -172,6 +172,32 @@ router.put("/update/:id", upload.single("photo"), (req, res) => {
 
 })
 
+router.post("/update2/:id", upload.single("photo"), (req, res) => {
+    const { id } = req.params;
+    const { filename } = req.file;
+    const { status, editdata } = req.body;
+    
+    if ( !filename || !editdata ) {
+        res.status('false').json({ status: 'false', message: "fill all the details" })
+    }
+
+    try {
+        let dateedit = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
+
+        conn.query("UPDATE usersdata SET userfile = ?, status_id = ?, date_edit=?, decs=? WHERE usersdata.id = ?", [filename, status, dateedit, editdata, id], (err, result) => {
+            if (err) {
+                console.log("error")
+            } else {
+                console.log("update data")
+                res.status(201).json({ status: 201, data: result })
+            }
+        })
+    } catch (error) {
+        res.status(422).json({ status: 422, error })
+    }
+
+})
+
 //fail data
 router.post("/fail/:id", jsonParser, (req, res) => {
     const { id } = req.params;
@@ -195,22 +221,22 @@ router.post("/fail/:id", jsonParser, (req, res) => {
 })
 
 //status
-router.post("/status/:id", (req, res) => {
-    const { id } = req.params;
+// router.post("/status/:id", (req, res) => {
+//     const { id } = req.params;
 
-    try {
-        conn.query("UPDATE usersdata SET status_id = ? WHERE id = ?", [2, id], (err, result) => {
-            if (err) {
-                console.log("error")
-            } else {
-                console.log("changed status")
-                res.status(201).json({ status: 201, data: result })
-            }
-        })
-    } catch (error) {
-        res.status(422).json({ status: 422, error })
-    }
-})
+//     try {
+//         conn.query("UPDATE usersdata SET status_id = ? WHERE id = ?", [2, id], (err, result) => {
+//             if (err) {
+//                 console.log("error")
+//             } else {
+//                 console.log("changed status")
+//                 res.status(201).json({ status: 201, data: result })
+//             }
+//         })
+//     } catch (error) {
+//         res.status(422).json({ status: 422, error })
+//     }
+// })
 
 //sign in
 router.post('/registeruser', jsonParser, function (req, res, next) {

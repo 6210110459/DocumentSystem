@@ -8,6 +8,7 @@ import Detail from './components/student/Detail';
 import Header from './components/Header';
 import Home from './components/student/Home';
 import Register from './components/student/Register';
+import Editt from './components/student/Editt';
 
 import Login from './components/Login';
 import Registeruser from './components/Registeruser';
@@ -38,6 +39,7 @@ function App() {
           <Route path='/upload' element={<Register />} />
           <Route path='/status' element={<Status />} />
           <Route path='/detail/:id' element={<Detail />} />
+          <Route path='/edit/:id' element={<Editt />} />
 
           {/* admin page */}
           <Route path='/admin/home' element={<Homee />} />
