@@ -102,7 +102,7 @@ const Edit = () => {
                             <>
                                 <div className='container mt-3'>
                                     <Card style={{ width: '100%' }} className='mt-2' >
-                                        <Card.Header as="h5">{el.ffname} {el.llname}</Card.Header>
+                                        <Card.Header as="h5" className='bg-dark text-white'>{el.ffname} {el.llname}</Card.Header>
                                         <Card.Body>
                                             <Card.Title>{el.topic}</Card.Title>
                                             <Card.Text>

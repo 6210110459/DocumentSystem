@@ -50,7 +50,7 @@ const Editt = () => {
             .catch((error) => {
                 console.error("Error:", error)
             });
-       
+
     }, [id])
 
     const [file, setFile] = useState("");
@@ -109,6 +109,9 @@ const Editt = () => {
                                                 {el.decs}
                                             </Card.Text>
                                         </Card.Body>
+                                        <Card.Footer>
+                                            <Card.Subtitle>หมายเหตุ: {el.decs_fail}</Card.Subtitle>
+                                        </Card.Footer>
                                     </Card>
                                 </div>
 
@@ -127,7 +130,7 @@ const Editt = () => {
 
                         <Form.Group className="mb-3" controlId="formControlTextarea1">
                             <Form.Label>Detail: แจ้งรายละเอียดต่างๆ </Form.Label>
-                            <Form.Control as="textarea" rows={3} name='editdata' onChange={(e)=>setEdit(e.target.value)}/>
+                            <Form.Control as="textarea" rows={3} name='editdata' onChange={(e) => setEdit(e.target.value)} />
                         </Form.Group>
 
                         <Button className="mb-2" variant="primary" type="submit" onClick={upDateuser} >

@@ -123,7 +123,7 @@ export default function Registeruser() {
                   required
                   fullWidth
                   id="email"
-                  label="Email Address ex:IDstudnet@psu.ac.th"
+                  label="Email Address ex: student=>IDstudnetor@email.psu.ac.th"
                   name="email"
                   autoComplete="email"
                 />
