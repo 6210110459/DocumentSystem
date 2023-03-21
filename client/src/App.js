@@ -19,6 +19,7 @@ import Detaill from './components/admin/Detaill';
 import Fail from './components/admin/Fail';
 
 import HomeT from './components/teacher/HomeT';
+import DetailT from './components/teacher/DetailT';
 
 function App() {
   // const token = localStorage.getItem('token')
@@ -48,6 +49,7 @@ function App() {
           <Route path='/fail/:id' element={<Fail/>} />
 
           <Route path='/teacher/home' element={<HomeT />} />
+          <Route path='/teacher/detial/:id' element={<DetailT />} />
         </Routes>
 
       </div>

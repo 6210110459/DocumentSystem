@@ -6,6 +6,7 @@ import Chip from '@mui/material/Chip';
 // import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom";
 // import Form from 'react-bootstrap/Form';
+import moment from "moment";
 
 
 const HomeT = () => {
@@ -36,7 +37,7 @@ const HomeT = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': 'Bearer '+token
+                'Authorization': 'Bearer ' + token
             }
         })
             .then(response => response.json())
@@ -59,7 +60,7 @@ const HomeT = () => {
     return (
         <>
             <div className='container mt-2'>
-            <h1 className='text-center mt-5'>Document Upload Projects With Mysql database</h1>
+                <h1 className='text-center mt-5'>Document Upload Projects With Mysql database</h1>
 
                 <div className='align-iteams-center mt-5'>
                     <Table hover responsive="sm">
@@ -69,6 +70,8 @@ const HomeT = () => {
                                 <th>Topic</th>
                                 <th>name</th>
                                 <th>Status</th>
+                                <th>Date Added</th>
+                                <th>Date Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -82,12 +85,18 @@ const HomeT = () => {
                                                 <td>{el.topic}</td>
                                                 <td>{el.ffname} {el.llname}</td>
                                                 <td>
-                                                    <Chip label={el.status_file} color={el.status_file === 'รอการดำเนิน' ? 'warning' : 'success'}></Chip>
+                                                    <Chip label={el.status_file}
+                                                        color={el.status_file === 'รอการดำเนิน' ? 'warning' :
+                                                            el.status_file === 'เอกสารไม่สำเร็จ' ? 'error' :
+                                                                el.status_file === 'เอกสารสำเร็จ' ? 'success' : 'primary'}>
+                                                    </Chip>
                                                 </td>
+                                                <td>{moment(el.date).format("DD-MM-YYYY")}</td>
+                                                <td>{el.date_edit !== null ? moment(el.date_edit).format("DD-MM-YYYY") : "-"}</td>
                                                 <td className="d-flex justify-content-evenly">
-                                                    <NavLink to={`/detail/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
+                                                    <NavLink to={`/teacher/detial/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
                                                 </td>
-    
+
                                             </tr>
                                         </>
                                     )

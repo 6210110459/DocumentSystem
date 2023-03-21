@@ -6,6 +6,7 @@ import Chip from '@mui/material/Chip';
 // import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom";
 // import Form from 'react-bootstrap/Form';
+import moment from "moment";
 
 
 const Homee = () => {
@@ -81,6 +82,8 @@ const Homee = () => {
                                 <th>Topic</th>
                                 <th>name</th>
                                 <th>Status</th>
+                                <th>Date Added</th>
+                                <th>Date Status</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -100,6 +103,8 @@ const Homee = () => {
                                                             el.status_file === 'เอกสารสำเร็จ' ? 'success' : 'primary'}
                                                     ></Chip>
                                                 </td>
+                                                <td>{moment(el.date).format("DD-MM-YYYY")}</td>
+                                                <td>{el.date_edit !== null ? moment(el.date_edit).format("DD-MM-YYYY") : "-"}</td>
                                                 <td className="d-flex justify-content-evenly">
                                                     <NavLink to={`/detaill/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
                                                 </td>

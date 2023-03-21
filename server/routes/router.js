@@ -136,7 +136,7 @@ router.delete("/delete/:id", (req, res) => {
 router.get("/induser/:id", jsonParser, (req, res) => {
     const { id } = req.params;
     try {
-        conn.query(`SELECT usersdata.id, usersdata.topic, usersdata.userfile, usersdata.decs, usersdata.status_id, usersdata.decs_fail, usersy.ffname, usersy.llname from usersdata  inner join usersy on usersy.id = usersdata.usersy_id where usersdata.id = ?`, [id], (err, result) => {
+        conn.query(`SELECT usersdata.id, usersdata.topic, usersdata.userfile, usersdata.decs, usersdata.status_id, usersdata.decs_fail, usersy.ffname, usersy.llname, usersy.roleuser from usersdata  inner join usersy on usersy.id = usersdata.usersy_id where usersdata.id = ?`, [id], (err, result) => {
             if (err) {
                 console.log("error")
             } else {
