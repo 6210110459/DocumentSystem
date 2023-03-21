@@ -5,12 +5,12 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Card from 'react-bootstrap/Card';
 
-const Edit = () => {
+const Fail = () => {
 
     const { id } = useParams("");
 
     const [updata, setUpData] = useState([]);
-    console.log(updata)
+    // console.log(updata)
 
     const getUserData2 = async (id) => {
         const res = await axios.get(`/induser/${id}`, {
@@ -52,39 +52,35 @@ const Edit = () => {
             .catch((error) => {
                 console.error("Error:", error)
             });
-       
     }, [id])
 
-    const [file, setFile] = useState("");
-
     const history = useNavigate();
-
-    const setimgfile = (e) => {
-        setFile(e.target.files[0])
-        //console.log(e.target.files[0]) //check if file appear in the console.
-    }
 
     const upDateuser = async (e) => {
         //no refresh page
         e.preventDefault();
 
-        var formData = new FormData();
-        formData.append("photo", file)
-        formData.append("status", 3)
-
-        const config = {
+        var formData = new FormData(e.target);
+        const jsonData = {
+            faildata: formData.get('faildata'),
+        }
+        
+        // formData.append("faildata", faildata)
+        // formData.append("statuss", 4)
+        
+        const configg = {
             headers: {
-                "Content-Type": "multipart/form-data"
+                "Content-Type": "application/json"
             }
         }
 
-        const res = await axios.put(`/update/${id}`, formData, config)
+        const res = await axios.post(`/fail/${id}`, JSON.stringify(jsonData), configg)
         console.log(res)
 
         //return to home pageWeb
         if (res.data.status === 201) {
             history("/admin/home")
-            console.log("update data")
+            console.log("update fail data")
         } else {
             console.log("error")
         }
@@ -93,7 +89,7 @@ const Edit = () => {
     return (
         <>
             <div className='container mt-3'>
-                <h1>Update Your File Here</h1>
+                <h1>Mistake Your File Here</h1>
 
 
                 {
@@ -119,13 +115,13 @@ const Edit = () => {
                 }
 
                 <div className='container mt-3'>
-                    <Form >
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Select Your File</Form.Label>
-                            <Form.Control type="file" name='photo' accept=".pdf" onChange={setimgfile} />
+                    <Form onSubmit={upDateuser}>
+                        <Form.Group className="mb-3" controlId="formControlTextarea1">
+                            <Form.Label>Detail</Form.Label>
+                            <Form.Control as="textarea" rows={3} name='faildata' />
                         </Form.Group>
 
-                        <Button className="mb-2" variant="primary" type="submit" onClick={upDateuser} >
+                        <Button className="mb-2" variant="primary" type="submit">
                             Submit
                         </Button>
                     </Form>
@@ -137,4 +133,4 @@ const Edit = () => {
     )
 }
 
-export default Edit
+export default Fail

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Table from 'react-bootstrap/esm/Table';
 import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
-import EditIcon from '@mui/icons-material/Edit';
 import Chip from '@mui/material/Chip';
 // import Button from 'react-bootstrap/Button';
 import { NavLink } from "react-router-dom";
@@ -37,7 +36,7 @@ const Homee = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': 'Bearer '+token
+                'Authorization': 'Bearer ' + token
             }
         })
             .then(response => response.json())
@@ -95,11 +94,14 @@ const Homee = () => {
                                                 <td>{el.topic}</td>
                                                 <td>{el.ffname} {el.llname}</td>
                                                 <td>
-                                                    <Chip label={el.status_file} color={el.status_file === 'รอการดำเนิน' ? 'warning' : 'success'}></Chip>
+                                                    <Chip label={el.status_file}
+                                                        color={el.status_file === 'รอการดำเนิน' ? 'warning' :
+                                                            el.status_file ==='เอกสารไม่สำเร็จ' ? 'error' : 
+                                                            el.status_file === 'เอกสารสำเร็จ' ? 'success' : 'primary'}
+                                                    ></Chip>
                                                 </td>
                                                 <td className="d-flex justify-content-evenly">
                                                     <NavLink to={`/detaill/${el.id}`}><button className="btn btn-success"><RemoveRedEyeIcon /></button></NavLink>
-                                                    <NavLink to={`/update/${el.id}`}><button className="btn btn-primary"><EditIcon /></button></NavLink>
                                                 </td>
 
                                             </tr>

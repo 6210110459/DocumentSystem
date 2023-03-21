@@ -44,19 +44,18 @@ var upload = multer({
 router.post("/register", upload.single("photo"), (req, res) => {
 
     // console.log(req.body);
-    const { tname, fname, dname } = req.body;
+    const { tname, dname } = req.body;
     const { filename } = req.file;
     const { status, user } = req.body;
 
-    if (!fname || !filename || !tname || !dname || !status || !user) {
+    if ( !filename || !tname || !dname || !status || !user) {
         res.status(422).json({ status: 422, message: "fill all the details" })
     }
 
     try {
-
         let date = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
 
-        conn.query("INSERT INTO usersdata SET ?", { topic: tname, username: fname, userfile: filename, decs: dname, status_id: status, date: date, usersy_id:user }, (err, result) => {
+        conn.query("INSERT INTO usersdata SET ?", { topic: tname, userfile: filename, decs: dname, status_id: status, date: date, usersy_id:user }, (err, result) => {
             if (err) {
                 console.log("error noconnect")
                 res.json({ message: err })
@@ -75,8 +74,6 @@ router.post("/register", upload.single("photo"), (req, res) => {
 
 // get user data
 router.get("/getdata", (req, res) => {
-    // const page = req.query.page;
-    // const items = req.query.items;
 
     try {
         conn.query(`SELECT usersdata.id, usersdata.topic, usersdata.userfile, usersdata.date, usersdata.date_edit, usersdata.decs, statusfile.status_file, usersy.ffname, usersy.llname 
@@ -89,13 +86,6 @@ router.get("/getdata", (req, res) => {
                 } else {
                     console.log("data get")
                     res.status(201).json({ status: 201, data: result })
-                    // if (page && items) {
-                    //     page = page !== 'undefined' ? parseInt(page, 10) : undefined;
-                    //     items = items !== 'undefined' ? parseInt(items, 10) : undefined;
-                    //     res.status(200).json({ users: users.search(page, items) });
-                    // } else {
-                    //     console.log("error")
-                    // }
                 }
             })
     } catch (error) {
@@ -106,7 +96,7 @@ router.get("/getdata", (req, res) => {
 //get data follow user
 router.get("/getdata/:id", jsonParser, (req, res) => {
     const { id } = req.params;
-    // const { id } = req.body;
+
     try {
         conn.query(`SELECT usersdata.id, usersdata.topic, usersdata.userfile, usersdata.date, usersdata.date_edit, usersdata.decs, statusfile.status_file, usersy.ffname, usersy.llname 
         FROM usersdata 
@@ -143,10 +133,10 @@ router.delete("/delete/:id", (req, res) => {
 })
 
 //get single user
-router.get("/induser/:id", (req, res) => {
+router.get("/induser/:id", jsonParser, (req, res) => {
     const { id } = req.params;
     try {
-        conn.query(`SELECT * FROM usersdata WHERE id=?`, [id], (err, result) => {
+        conn.query(`SELECT usersdata.id, usersdata.topic, usersdata.userfile, usersdata.decs, usersdata.status_id, usersdata.decs_fail, usersy.ffname, usersy.llname from usersdata  inner join usersy on usersy.id = usersdata.usersy_id where usersdata.id = ?`, [id], (err, result) => {
             if (err) {
                 console.log("error")
             } else {
@@ -164,11 +154,11 @@ router.put("/update/:id", upload.single("photo"), (req, res) => {
     const { id } = req.params;
     const { filename } = req.file;
     const { status } = req.body;
-
+    
     try {
         let dateedit = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
 
-        conn.query("UPDATE usersdata SET userfile = ?, status_id = ?, date_edit=? WHERE id = ?", [filename, status, dateedit, id], (err, result) => {
+        conn.query("UPDATE usersdata SET userfile = ?, status_id = ?, date_edit=? WHERE usersdata.id = ?", [filename, status, dateedit, id], (err, result) => {
             if (err) {
                 console.log("error")
             } else {
@@ -182,23 +172,45 @@ router.put("/update/:id", upload.single("photo"), (req, res) => {
 
 })
 
+//fail data
+router.post("/fail/:id", jsonParser, (req, res) => {
+    const { id } = req.params;
+    const { faildata } = req.body;
+    try {
+        let dateedit = moment(new Date()).format("YYYY-MM-DD hh:mm:ss");
+
+        conn.query("UPDATE usersdata SET status_id=?, date_edit=?, decs_fail=? WHERE id=?", [4, dateedit, faildata, id], 
+        (err, result) => {
+            if (err) {
+                console.log("error")
+            } else {
+                console.log("update fail data")
+                res.status(201).json({ status: 201, data: req.body })
+            }
+        })
+    } catch (error) {
+        res.status(422).json({ status: 422, error })
+    }
+
+})
+
 //status
-// router.put("/status/:id", (req, res) => {
-//     const { id } = req.params;
-//     const { status } = req.body;
-//     try {
-//         conn.query("UPDATE usersdata SET status_id = ? WHERE id = ?", [status, id], (err, result) => {
-//             if (err) {
-//                 console.log("error")
-//             } else {
-//                 console.log("changed status")
-//                 res.status(201).json({ status: 201, data: result })
-//             }
-//         })
-//     } catch (error) {
-//         res.status(422).json({ status: 422, error })
-//     }
-// })
+router.post("/status/:id", (req, res) => {
+    const { id } = req.params;
+
+    try {
+        conn.query("UPDATE usersdata SET status_id = ? WHERE id = ?", [2, id], (err, result) => {
+            if (err) {
+                console.log("error")
+            } else {
+                console.log("changed status")
+                res.status(201).json({ status: 201, data: result })
+            }
+        })
+    } catch (error) {
+        res.status(422).json({ status: 422, error })
+    }
+})
 
 //sign in
 router.post('/registeruser', jsonParser, function (req, res, next) {

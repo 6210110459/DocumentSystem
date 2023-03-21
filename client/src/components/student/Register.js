@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"
 const Register = () => {
 
     //assign variables to name files.
-    const [fname, setFName] = useState("");
+    // const [fname, setFName] = useState("");
     const [tname, setTName] = useState("");
     const [dname, setDName] = useState("");
 
@@ -33,7 +33,7 @@ const Register = () => {
 
         var formData = new FormData();
         formData.append("photo", file)
-        formData.append("fname", fname)
+        // formData.append("fname", fname)
         formData.append("tname", tname)
         formData.append("dname", dname)
         formData.append("status", statusf)
@@ -68,10 +68,10 @@ const Register = () => {
                         <Form.Control type="text" name='tname' placeholder='topic' onChange={(e) => setTName(e.target.value)} />
                     </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                    {/* <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>FileName</Form.Label>
                         <Form.Control type="text" name='fname' placeholder='filename' onChange={(e) => setFName(e.target.value)} />
-                    </Form.Group>
+                    </Form.Group> */}
 
                     <Form.Group className="mb-3" controlId="formBasicPassword">
                         <Form.Label>Select Your File</Form.Label>
@@ -80,8 +80,7 @@ const Register = () => {
 
                     <Form.Group className="mb-3" controlId="formControlTextarea1">
                         <Form.Label>Detail</Form.Label>
-                        <Form.Control type='text' name='dname' row={3} onChange={(e) => setDName(e.target.value)} />
-
+                        <Form.Control as="textarea" rows={3} name='dname' onChange={(e) => setDName(e.target.value)} />
                     </Form.Group>
 
                     <Button className="mb-2" variant="primary" type="submit" onClick={addUserData} >

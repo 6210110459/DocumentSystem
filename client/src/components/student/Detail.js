@@ -47,9 +47,9 @@ const Detail = () => {
                         return (
                             <>
                                 <Card style={{ width: '100%' }} className='mt-2' >
-                                    <Card.Header as="h5">{el.username}</Card.Header>
+                                    <Card.Header as="h5">{el.topic}</Card.Header>
                                     <Card.Body>
-                                        <Card.Title>{el.topic}</Card.Title>
+                                        <Card.Title>{el.usersy_id}</Card.Title>
                                         <Card.Text>
                                             {el.decs}
                                         </Card.Text>

@@ -6,10 +6,7 @@ import '@react-pdf-viewer/core/lib/styles/index.css';
 import { defaultLayoutPlugin } from '@react-pdf-viewer/default-layout';
 import '@react-pdf-viewer/default-layout/lib/styles/index.css';
 import EditIcon from '@mui/icons-material/Edit';
-import Button from 'react-bootstrap/Button';
-import { NavLink, useParams } from "react-router-dom";
-import { FormControl, FormControlLabel } from '@mui/material';
-import Switch from '@mui/material/Switch';
+import { useParams } from "react-router-dom";
 // import TextField from '@mui/material/TextField';
 // import Box from '@mui/material/Box';
 
@@ -40,30 +37,32 @@ const Detail = () => {
     }
 
     useEffect(() => {
-        getUserData2(id)
+        const token = localStorage.getItem('token')
+
+        fetch("http://localhost:8004/authuser", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + token
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'ok') {
+                    // alert('authen success')
+                    // console.log(data.decode)
+                    getUserData2(id)
+                } else {
+                    alert('authen failed')
+                    localStorage.removeItem('token')
+                    window.location = "/"
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error)
+            });
+        
     }, [id])
-
-    // const [status, setStatus] = useState(false);
-    // const [decs, setDecs] = useState([]);
-
-    // const stA = (e) => {
-    //     if (setStatus(true)) {
-    //         setDecs(e.target.value)
-    //     } else {
-    //         console.log('no work function')
-    //     }
-    // }
-
-    // const stUser = async (e) => {
-    //     e.preventDefault();
-    //     setStatus(true)
-
-    //     var formData = new FormData();
-    //     formData.append('decs', decs);
-    //     formData.append('status', status);
-
-
-    // }
 
     return (
         <>
@@ -72,60 +71,55 @@ const Detail = () => {
                     data.map((el) => {
                         return (
                             <>
-                                <div className='text-end'>
-                                    <Button variant="primary"><NavLink to={`/update/${el.id}`} className="text-decoration-none text-light"><EditIcon /> update </NavLink></Button>
-                                </div>
+                                {
+                                    el.status_id === 1 ?
+                                        <div className='text-end justify-content-end'>
+                                            <a href={`/update/${el.id}`} ><button class="btn btn-primary" ><EditIcon /> update </button></a>
+                                            <a href={`/fail/${el.id}`}><button class="btn btn-danger" ><EditIcon /> mistake </button></a>
+                                        </div> :
+                                        el.status_id === 2 ?
+                                            <div className='text-end justify-content-end'>
+                                                <a href={`/update/${el.id}`} ><button class="btn btn-primary" ><EditIcon /> update </button></a>
+                                            </div> : ""
+                                }
+
+
+                                {/* <div className='text-end justify-content-end'>
+                                    <NavLink to={`/update/${el.id}`} className="text-decoration-none text-light"><button class="btn btn-primary" ><EditIcon /> update </button></NavLink>
+                                    <button class="btn btn-danger"><NavLink to={`/fail/${el.id}`} className="text-decoration-none text-light"><EditIcon /> mistake </NavLink></button>
+                                    <a href={`/update/${el.id}`} ><button class="btn btn-primary" ><EditIcon /> update </button></a>
+                                    <a href={`/fail/${el.id}`}><button class="btn btn-danger" ><EditIcon /> update </button></a>
+                                </div> */}
 
 
 
                                 <Card style={{ width: '100%' }} className='mt-2' >
-                                    <Card.Header as="h5">{el.username}</Card.Header>
+                                    <Card.Header as="h4" className='bg-dark text-white'>{el.ffname} {el.llname}</Card.Header>
                                     <Card.Body>
-                                        <Card.Title>{el.topic}</Card.Title>
-                                        <Card.Text>
-                                            {el.decs}
-                                        </Card.Text>
+                                        <Card.Title>หัวข้อเอกสาร: {el.topic}</Card.Title>
+                                        <Card.Text>รายละเอียด: {el.decs}</Card.Text>
                                     </Card.Body>
+                                    <Card.Footer>
+                                        <Card.Subtitle>หมายเหตุ: {el.decs_fail}</Card.Subtitle>
+                                    </Card.Footer>
                                 </Card>
 
-                                <FormControl>
-                                    <FormControlLabel
-                                        value={true}
-                                        // onClick={stA}
-                                        control={<Switch color="error" />}
-                                        label="เอกสารไม่เรียบร้อย"
-                                        // labelPlacement="start"
-                                    />
-                                </FormControl>
-{/* 
-                                {
-                                    status === true ? <Box onClose={() => setStatus()}>
-                                    <TextField
-                                        id="standard-multiline-flexible"
-                                        label="สาเหตุเอกสารไม่เรียบร้อย"
-                                        multiline
-                                        fullWidth
-                                        variant="standard"
-                                    />
-                                </Box> : ""
-                                }
-                                 */}
-                                <div>
+                                    <div>
 
-                                </div>
+                                    </div>
 
-                                <div style={{ height: '100%' }} className='mt-3' >
-                                    <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.1.81/build/pdf.worker.min.js" >
-                                        <Viewer fileUrl={`/uploads/${el.userfile}`} plugins={[defaultLayoutPluginInstance]} />
-                                    </Worker>
-                                </div>
-                            </>
-                        )
+                                    <div style={{ height: '100%' }} className='mt-3' >
+                                        <Worker workerUrl="https://unpkg.com/pdfjs-dist@3.1.81/build/pdf.worker.min.js" >
+                                            <Viewer fileUrl={`/uploads/${el.userfile}`} plugins={[defaultLayoutPluginInstance]}/>
+                                        </Worker>
+                                    </div>
+                                </>
+                                )
                     })
                 }
-            </div>
+                            </div>
         </>
-    )
+            )
 }
 
-export default Detail
+            export default Detail

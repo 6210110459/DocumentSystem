@@ -15,6 +15,7 @@ import Registeruser from './components/Registeruser';
 import Edit from './components/admin/Edit';
 import Homee from './components/admin/Homee';
 import Detaill from './components/admin/Detaill';
+import Fail from './components/admin/Fail';
 
 import HomeT from './components/teacher/HomeT';
 
@@ -42,6 +43,7 @@ function App() {
           <Route path='/admin/home' element={<Homee />} />
           <Route path='/detaill/:id' element={<Detaill />} />
           <Route path='/update/:id' element={<Edit />} />
+          <Route path='/fail/:id' element={<Fail/>} />
 
           <Route path='/teacher/home' element={<HomeT />} />
         </Routes>

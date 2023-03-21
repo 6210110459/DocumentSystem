@@ -138,7 +138,9 @@ const Home = () => {
                                                             : ""
                                                     } */}
                                                     <Chip label={el.status_file} 
-                                                        color={el.status_file === 'รอการดำเนิน' ? 'warning' : 'success'}
+                                                        color={el.status_file === 'รอการดำเนิน' ? 'warning' :
+                                                            el.status_file ==='เอกสารไม่สำเร็จ' ? 'error' : 
+                                                            el.status_file === 'เอกสารสำเร็จ' ? 'success' : 'primary'}
                                                         ></Chip>
                                                 </td>
 
