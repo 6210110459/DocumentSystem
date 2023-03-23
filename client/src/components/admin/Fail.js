@@ -89,7 +89,7 @@ const Fail = () => {
     return (
         <>
             <div className='container mt-3'>
-                <h1>Mistake Your File Here</h1>
+                <h1 className='text-center mt-2'>Mistake Your File Here</h1>
 
 
                 {

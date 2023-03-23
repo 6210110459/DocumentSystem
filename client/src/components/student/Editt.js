@@ -94,7 +94,7 @@ const Editt = () => {
     return (
         <>
             <div className='container mt-3'>
-                <h1>Update Your File Here</h1>
+                <h1 className='text-center mt-2'>Edit Your File Here</h1>
 
 
                 {

@@ -60,7 +60,7 @@ const Register = () => {
         <>
             {/* <Header /> */}
             <div className='container mt-3'>
-                <h1>Upload Your File Here</h1>
+                <h1 className='text-center mt-2'>Upload Your File Here</h1>
 
                 <Form>
                     <Form.Group className="mb-3" controlId="formControlInput1">
